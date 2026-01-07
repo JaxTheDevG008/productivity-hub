@@ -1,0 +1,493 @@
+body {
+   font-family: Arial;
+   display: flex;
+   flex-direction: column;
+   align-items: left;
+   width: 100%;
+   background-color: white;
+   color: black;
+}
+
+h1 {
+    margin-top: 10px;
+}
+
+.taskSearch {
+    margin: 5px;
+    padding: 10px 15px;
+    border: 1px solid gray;
+    border-radius: 20px;
+    font-family: Arial, sans-serif;
+    width: 200px;
+    position: relative;
+    bottom: 110px;
+    left: 300px;
+}
+
+.options {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: right;
+    right: 15px;
+    bottom: 116px;
+}
+
+.enableNotificationsBtn {
+    position: relative;
+    background-color: oklch(40.817% 0.21622 301.461);
+    color: white;
+    margin: 5px;
+    width: 170px;
+    height: 36px;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 20px;
+}
+
+.enableNotificationsBtn:hover {
+    background-color: oklch(30.817% 0.21622 301.461);
+    cursor: pointer;
+}
+
+.themeBtn {
+    position: relative;
+    background-color: oklch(21.808% 0.06129 260.262);
+    color: white;
+    margin: 5px;
+    width: 60px;
+    height: 36px;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 20px;
+}
+
+.themeBtn:hover {
+    background-color: oklch(21.808% 0.06129 260.262);
+    cursor: pointer;
+}
+
+input {
+    margin: 5px;
+    padding: 10px 15px;
+    border: 1px solid gray;
+    border-radius: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.taskInput {
+    width: 200px;
+}
+
+.taskDateInput {
+    width: 125px;
+    font-family: Arial, sans-serif;
+}
+
+.addTaskBtn {
+    background-color: oklch(75% 0.45 255);
+    color: white;
+    margin: 5px;
+    height: 36px;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 20px;
+    margin-top: 0px;
+}
+
+.addTaskBtn:hover {
+    background-color: oklch(65% 0.45 255);
+    cursor: pointer;
+}
+
+ul {
+    position: relative;
+    bottom: 40px;
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    vertical-align: middle;
+    margin: 0px;
+}
+
+li, .listItem {
+    margin: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    gap: 6px;
+}
+
+input[type="checkbox"] {
+    appearance: none;
+    width: 30px;
+    height: 33px;
+    border: 2px solid gray;
+    border-radius: 8px;
+    position: relative;
+    vertical-align: middle;
+    margin-right: 15px;
+}
+
+input[type="checkbox"]:hover {
+    cursor: pointer;
+}
+
+input[type="checkbox"]:checked {
+    background-color: oklch(38.288% 0.00004 271.152);
+    border-color: oklch(38.288% 0.00004 271.152);
+}
+
+input[type="checkbox"]::before {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 8px;
+    width: 10px;
+    height: 18px;
+    border: solid white;
+    border-width: 0 4px 4px 0;
+    transform: rotate(45deg) scale(1);
+    opacity: 0;
+}
+
+input[type="checkbox"]:checked::before {
+    opacity: 1;
+    animation: checkmark 0.3s ease forwards;
+}
+
+@keyframes checkmark {
+    0% {
+        transform: rotate(45deg) scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: rotate(45deg) scale(1);
+        opacity: 1;
+    }
+}
+
+.mainTask {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    order: 0;
+}
+
+.settingsBtn {
+    position: relative;
+    background-color: oklch(77.944% 0.00009 271.152 / 0);
+    margin: 5px;
+    right: 13px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    width: 33px;
+    height: 33px;
+    border: none;
+    border-radius: 20px;
+    margin-top: -5px;
+}
+
+.settingsBtn:hover {
+    background-color: oklch(77.944% 0.00009 271.152 / 0.1);
+    cursor: pointer;
+}
+
+.settings {
+    position: relative;
+    bottom: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    order: 2;
+}
+
+.editTaskBtn {
+    position: relative;
+    background-color: oklch(55% 0.10 255);
+    color: white;
+    margin: 5px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    width: 55px;
+    height: 33px;
+    border: none;
+    border-radius: 20px;
+    margin-top: -5px;
+}
+
+.editTaskBtn:hover {
+    background-color: oklch(45% 0.10 255);
+    cursor: pointer;
+}
+
+.editTaskDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    margin-top: 10px;
+}
+
+.editTaskInput {
+    width: 200px;
+    height: 30px;
+    border: 1px solid gray;
+    border-radius: 10px;
+    padding: 10px;
+    resize: none;
+    font-family: Arial, sans-serif;
+    right: 10px;
+    margin-bottom: 5px;
+}
+
+.saveEditBtn {
+    position: relative;
+    background-color: oklch(47.691% 0.14937 145.156);
+    color: white;
+    margin: 5px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    width: 60px;
+    height: 33px;
+    border: none;
+    border-radius: 20px;
+    margin-top: 5px;
+}
+
+.saveEditBtn:hover {
+    background-color: oklch(37.691% 0.14937 145.156);
+    cursor: pointer;
+}
+
+.subtaskBtn {
+    position: relative;
+    background-color: oklch(71.824% 0.11052 239.814);
+    color: white;
+    margin: 5px;
+    width: 110px;
+    height: 33px;
+    border: none;
+    border-radius: 20px;
+    margin-top: -5px;
+}
+
+.subtaskBtn:hover {
+    background-color: oklch(61.824% 0.11052 239.814);
+    cursor: pointer;
+}
+
+.subtaskCreatorDiv {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.subtaskInput {
+    width: 200px;
+    border: 1px solid gray;
+    border-radius: 20px;
+    padding: 10px 15px;
+    resize: none;
+    font-family: Arial, sans-serif;
+    right: 10px;
+    margin-bottom: 5px;
+}
+
+.subtaskDateInput {
+    width: 125px;
+    font-family: Arial, sans-serif;
+    margin-bottom: 5px;
+}
+
+.subtaskTimeInput {
+    font-family: Arial, sans-serif;
+    margin-bottom: 5px;
+}
+
+.saveSubtaskBtn {
+    position: relative;
+    background-color: oklch(47.691% 0.14937 145.156);
+    color: white;
+    margin: 5px;
+    padding-top: 11px;
+    padding-bottom: 27px;
+    width: 120px;
+    height: 33px;
+    border: none;
+    border-radius: 20px;
+    margin-top: 5px;
+}
+
+.saveSubtaskBtn:hover {
+    background-color: oklch(37.691% 0.14937 145.156);
+    cursor: pointer;
+}
+
+.urgencyLevel {
+    position: relative;
+    font-size: 16px;
+    background-color: oklch(73.188% 0.18576 52.974);
+    color: white;
+    border: none;
+    left: 4px;
+    border-radius: 20px;
+    font-size: 14px;
+    padding-left: 15px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    width: 90px;
+}
+
+.urgencyLevel:hover {
+    background-color: oklch(63.188% 0.18576 52.974);
+    cursor: pointer;
+}
+
+.addNoteBtn {
+    position: relative;
+    background-color: oklch(64.487% 0.1101 194.807);
+    color: white;
+    margin: 5px;
+    left: 7.5px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    width: 90px;
+    height: 33px;
+    border: none;
+    border-radius: 20px;
+    margin-top: -5px;
+}
+
+.addNoteBtn:hover {
+    background-color: oklch(54.487% 0.1101 194.807);
+    cursor: pointer;
+}
+
+.noteCreatorDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    margin-top: 10px;
+}
+
+.noteCreator {
+    width: 200px;
+    height: 30px;
+    border: 1px solid gray;
+    border-radius: 10px;
+    padding: 10px;
+    resize: none;
+    font-family: Arial, sans-serif;
+    right: 10px;
+    margin-bottom: 5px;
+}
+
+.saveNoteBtn {
+    position: relative;
+    background-color: oklch(47.691% 0.14937 145.156);
+    color: white;
+    margin: 5px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    width: 90px;
+    height: 33px;
+    border: none;
+    border-radius: 20px;
+    margin-top: 5px;
+}
+
+.saveNoteBtn:hover {
+    background-color: oklch(37.691% 0.14937 145.156);
+    cursor: pointer;
+}
+
+.noteDisplay {
+    position: relative;
+    left: 52.5px;
+    bottom: 15px;
+    font-size: 10px;
+    width: fit-content;
+    max-width: 300px;
+    font-family: Arial, sans-serif;
+    order: 1;
+}
+
+.deleteNoteBtn {
+    position: relative;
+    top: 2px;
+    background-color: transparent;
+    color: white;
+    width: 20px;
+    height: 20px;
+    border: none;
+    border-radius: 20px;
+}
+
+.deleteNoteBtn:hover {
+    cursor: pointer;
+}
+
+.prioritizeBtn {
+    position: relative;
+    background-color: oklch(82% 0.17232 84.976);
+    color: white;
+    margin: 5px;
+    left: 7.5px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    width: 75px;
+    height: 33px;
+    border: none;
+    border-radius: 20px;
+    margin-top: -5px;
+}
+
+.prioritizeBtn:hover {
+    background-color: oklch(72% 0.17232 84.976);
+    cursor: pointer;
+}
+
+.unprioritizeBtn {
+    position: relative;
+    background-color: oklch(60% 0.17232 84.976);
+    color: white;
+    left: 7.5px;
+    margin: 5px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    width: 100px;
+    height: 33px;
+    border: none;
+    border-radius: 20px;
+    margin-top: -5px;
+}
+
+.unprioritizeBtn:hover {
+    background-color: oklch(50% 0.17232 84.976);
+    cursor: pointer;
+}
+
+.deleteBtn {
+    position: relative;
+    background-color: oklch(40% 0.50 20);
+    color: white;
+    margin: 5px;
+    left: 7.5px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    width: 75px;
+    height: 33px;
+    border: none;
+    border-radius: 20px;
+    margin-top: -5px;
+}
+
+.deleteBtn:hover {
+    background-color: oklch(30% 0.50 20);
+    cursor: pointer;
+}
