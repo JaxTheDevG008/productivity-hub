@@ -1,14 +1,19 @@
 const askForNotifications = document.querySelector(".askForNotifications");
-const enableNotificationsBtn = document.querySelector(".enableNotificationsBtn",);
+const enableNotificationsBtn = document.querySelector(
+  ".enableNotificationsBtn",
+);
 const closeNotiPopup = document.querySelector(".closeNotiPopup");
 const sidebar = document.querySelector(".sidebar");
+const dashboardBtn = document.querySelector(".dashboardBtn");
 const calendarBtn = document.querySelector(".calendarBtn");
 const mainContent = document.querySelector(".mainContent");
 const commandCenter = document.querySelector(".commandCenter");
+const AIAssistantBtn = document.querySelector(".AIAssistantBtn");
 const decrastinatorBtn = document.querySelector(".decrastinatorBtn");
 const currentDate = document.querySelector(".currentDate");
 const dynamicGreeting = document.querySelector(".greeting");
 const miniAnalytics = document.querySelector(".miniAnalytics");
+const workAreaSplit = document.querySelector(".workAreaSplit");
 const toDoList = document.querySelector(".toDoList");
 const listAndKanbanToggle = document.querySelector(".listAndKanbanToggle");
 const addBtn = document.querySelector(".addBtn");
@@ -52,25 +57,28 @@ const themeBtn = document.querySelector(".themeBtn");
 const notes = document.querySelector(".notes");
 const calendarSection = document.querySelector(".calendar");
 
+let decrastinatorIntervalId = null;
+let decrastinatorIsRunning = false;
+
 let allTaskNames = JSON.parse(localStorage.getItem("allTaskNames")) || [];
 
 let calendar;
 
-document.addEventListener('DOMContentLoaded', function() {
-  var calendarEl = document.getElementById('calendar');
+document.addEventListener("DOMContentLoaded", function () {
+  var calendarEl = document.getElementById("calendar");
   if (calendarEl) {
     calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth',
+      initialView: "dayGridMonth",
       headerToolbar: {
         left: "",
         center: "prev,title,next",
-        right: "dayGridMonth,dayGridWeek,dayGridDay"
-      }
+        right: "dayGridMonth,dayGridWeek,dayGridDay",
+      },
     });
+    calendar.render();
   } else {
     console.error("Calendar error");
   }
-  calendar.render();
 });
 
 function responsiveWebsite() {
@@ -87,8 +95,11 @@ responsiveWebsite();
 window.addEventListener("load", () => {
   taskCreationDiv.style.display = "none";
 
-  localStorage.getItem("taskSelectionOptions") ? taskSelectionDropdown.innerHTML = localStorage.getItem("taskSelectionOptions") : null;
-  localStorage.getItem("taskDecrastinatorSelectionOptions") ? decrastinatorTaskSelector.innerHTML = localStorage.getItem("taskDecrastinatorSelectionOptions") : null;
+  localStorage.getItem("taskSelectionOptions")
+    ? (taskSelectionDropdown.innerHTML = localStorage.getItem(
+        "taskSelectionOptions",
+      ))
+    : null;
 
   const savedTasks = localStorage.getItem("tasks");
   if (savedTasks) {
@@ -117,14 +128,20 @@ window.addEventListener("load", () => {
     sidebar.style.marginTop = "44px";
     toDoList.style.marginTop = "44px";
   }
-}); 
+});
+
+/* dashboardBtn.addEventListener("click", () => {
+  document.body.classList.add("dashboardActive");
+}) */
 
 calendarBtn.addEventListener("click", () => {
-  document.body.classList.toggle("calendarView")
-})
+  document.body.classList.toggle("calendarView");
+});
 
 const now = new Date();
-const formattedCurrentDate = now.toLocaleDateString('en-US', { dateStyle: 'full' });
+const formattedCurrentDate = now.toLocaleDateString("en-US", {
+  dateStyle: "full",
+});
 
 currentDate.textContent = formattedCurrentDate;
 
@@ -151,19 +168,22 @@ enableNotificationsBtn.addEventListener("click", () => {
 });
 
 closeNotiPopup.addEventListener("click", () => {
-  toDoList.style.marginTop = "0px";
-  sidebar.style.marginTop = "0px";
   askForNotifications.style.display = "none";
-  localStorage.setItem("askForNotiDisplay", "none");
 
-  const notiReminder = document.createElement("div");
-  notiReminder.className = "notiReminder";
-  notiReminder.textContent = "You can always setup notifications in settings.";
-  notiReminder.classList.add("show");
-  document.body.appendChild(notiReminder);
+  const notiReminderDiv = document.createElement("div");
+  notiReminderDiv.className = "notiReminderDiv";
+
+  notiReminderText = document.createElement("div");
+  notiReminderText.className = "notiReminderText";
+  notiReminderText.textContent =
+    "You can always setup notifications in settings.";
+  notiReminderDiv.appendChild(notiReminderText);
+
+  notiReminderDiv.classList.add("show");
+  document.body.appendChild(notiReminderDiv);
   setTimeout(() => {
-    if (notiReminder.parentNode) {
-      notiReminder.parentNode.removeChild(notiReminder);
+    if (notiReminderDiv.parentNode) {
+      notiReminderDiv.parentNode.removeChild(notiReminderDiv);
     }
   }, 4000);
 });
@@ -180,8 +200,64 @@ themeBtn.addEventListener("click", () => {
   }
 });
 
+AIAssistantBtn.addEventListener("click", () => {
+  const isAIView = document.documentElement.classList.toggle("AIView");
+
+  if (isAIView) {
+    const AIOverlay = document.createElement("div");
+    AIOverlay.className = "AIOverlay";
+
+    const AIDiv = document.createElement("div");
+    AIDiv.className = "AIDiv";
+
+    const AIName = document.createElement("div");
+    AIName.className = "AIName";
+    AIName.textContent = "AI Assistant";
+    AIDiv.appendChild(AIName);
+
+    const AIPrioritySuggestionBtn = document.createElement("button");
+    AIPrioritySuggestionBtn.className = "AIPrioritySuggestionBtn";
+    AIPrioritySuggestionBtn.textContent = "Start Analysis";
+
+    const AIPrioritySuggestions = document.createElement("div");
+    AIPrioritySuggestions.className = "AIPrioritySuggestions";
+
+    AIPrioritySuggestionBtn.addEventListener("click", async () => {
+      AIPrioritySuggestions.textContent = "Thinking...";
+
+      const raw = await getSuggestedPriorities();
+      if (raw.error) {
+        AIPrioritySuggestions.textContent =
+          "AI is busy right now. Try again in a moment.";
+        return;
+      }
+
+      const result = JSON.parse(raw);
+
+      AIPrioritySuggestions.innerHTML = "";
+      result.priorities.forEach((item, index) => {
+        const entry = document.createElement("div");
+        entry.className = "AIResultEntry";
+        entry.innerHTML = `<strong>${index + 1}. ${item.title}</strong><p>${item.reason}</p>`;
+        AIPrioritySuggestions.appendChild(entry);
+      });
+    });
+
+    AIDiv.append(AIPrioritySuggestionBtn, AIPrioritySuggestions);
+    document.body.append(AIOverlay, AIDiv);
+    document
+      .querySelectorAll("body > :not(.AIDiv):not(.AIOverlay)")
+      .forEach((el) => (el.inert = true));
+  } else {
+    document.querySelector(".AIOverlay")?.remove();
+    document.querySelector(".AIDiv")?.remove();
+    document.querySelectorAll("body >  *").forEach((el) => (el.inert = false));
+  }
+});
+
 decrastinatorBtn.addEventListener("click", () => {
-  const isDecrastinatorView = document.documentElement.classList.toggle("decrastinatorView");
+  const isDecrastinatorView =
+    document.documentElement.classList.toggle("decrastinatorView");
 
   if (isDecrastinatorView) {
     const decrastinatorOverlay = document.createElement("div");
@@ -200,23 +276,28 @@ decrastinatorBtn.addEventListener("click", () => {
 
     let decrastinatorTotalTime = 3 * 60;
     let decrastinatorTotalSeconds = decrastinatorTotalTime;
-    let decrastinatorIntervalId = null;
-    let decrastinatorIsRunning = false;
 
     const decrastinatorInitMinutes = Math.floor(decrastinatorTotalSeconds / 60);
     const decrastinatorInitSeconds = decrastinatorTotalSeconds % 60;
-    decrastinatorMinutesDiv.textContent = `${decrastinatorInitMinutes}:${decrastinatorInitSeconds.toString().padStart(2, '0')}`;
+    decrastinatorMinutesDiv.textContent = `${decrastinatorInitMinutes}:${decrastinatorInitSeconds.toString().padStart(2, "0")}`;
 
     const decrastinatorTaskSelector = document.createElement("select");
     decrastinatorTaskSelector.className = "decrastinatorTaskSelector";
     decrastinatorDiv.appendChild(decrastinatorTaskSelector);
+    const decrastinatorTaskSelectorPlaceholder =
+      document.createElement("option");
+    decrastinatorTaskSelectorPlaceholder.className =
+      "decrastinatorTaskSelectorPlaceholder";
+    decrastinatorTaskSelectorPlaceholder.textContent = "Select a task";
+    decrastinatorTaskSelectorPlaceholder.disabled = true;
+    decrastinatorTaskSelectorPlaceholder.selected = true;
 
-    allTaskNames.forEach(name => {
+    allTaskNames.forEach((name) => {
       const decrastinationTaskOption = document.createElement("option");
       decrastinationTaskOption.value = name;
       decrastinationTaskOption.textContent = name;
       decrastinatorTaskSelector.appendChild(decrastinationTaskOption);
-    })
+    });
 
     const startDecrastinatorBtn = document.createElement("div");
     startDecrastinatorBtn.className = "startDecrastinatorBtn";
@@ -228,28 +309,32 @@ decrastinatorBtn.addEventListener("click", () => {
       decrastinatorIsRunning = true;
 
       decrastinatorIntervalId = setInterval(() => {
-      decrastinatorTotalSeconds--;
+        decrastinatorTotalSeconds--;
 
-      const decrastinatorMinutes = Math.floor(decrastinatorTotalSeconds / 60);
-      const decrastinatorSeconds = decrastinatorTotalSeconds % 60;
-      decrastinatorMinutesDiv.textContent = `${decrastinatorMinutes}:${decrastinatorSeconds.toString().padStart(2, '0')}`;
+        const decrastinatorMinutes = Math.floor(decrastinatorTotalSeconds / 60);
+        const decrastinatorSeconds = decrastinatorTotalSeconds % 60;
+        decrastinatorMinutesDiv.textContent = `${decrastinatorMinutes}:${decrastinatorSeconds.toString().padStart(2, "0")}`;
 
-      if (decrastinatorTotalSeconds <= 0) {
-        clearInterval(decrastinatorIntervalId);
-      }
-    }, 1000)
-    })
+        if (decrastinatorTotalSeconds <= 0) {
+          clearInterval(decrastinatorIntervalId);
+        }
+      }, 1000);
+    });
 
-    decrastinatorDiv.append(decrastinatorMinutesDiv);
+    decrastinatorDiv.appendChild(decrastinatorMinutesDiv);
     document.body.append(decrastinatorOverlay, decrastinatorDiv);
-    document.querySelectorAll("body > :not(.decrastinatorDiv):not(.decrastinatorOverlay)").forEach(el => el.inert = true);
+    document
+      .querySelectorAll(
+        "body > :not(.decrastinatorDiv):not(.decrastinatorOverlay)",
+      )
+      .forEach((el) => (el.inert = true));
   } else {
     document.querySelector(".decrastinatorOverlay")?.remove();
     document.querySelector(".decrastinatorDiv")?.remove();
-    document.querySelectorAll("body >  *").forEach(el => el.inert = false);
+    document.querySelectorAll("body >  *").forEach((el) => (el.inert = false));
     clearInterval(decrastinatorIntervalId);
   }
-})
+});
 
 window.addEventListener("load", () => {
   if (document.documentElement.getAttribute("data-theme") === "dark") {
@@ -257,10 +342,17 @@ window.addEventListener("load", () => {
   } else {
     themeBtn.innerHTML = `<img src="Images/Dark Mode Icon.png" alt="Dark Mode Icon" class="themeIcon">`;
   }
-})
+});
 
-const newTheme = localStorage.getItem("theme");
-if (newTheme === "dark") {
+const savedTheme = localStorage.getItem("theme");
+if (savedTheme === "dark") {
+  document.documentElement.setAttribute("data-theme", "dark");
+} else {
+  document.documentElement.removeAttribute("data-theme");
+}
+
+const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+if (isDark) {
   document.documentElement.setAttribute("data-theme", "dark");
 } else {
   document.documentElement.removeAttribute("data-theme");
@@ -271,74 +363,76 @@ noTasksYetAlert.style.display = "inline";
 let isDraggable = false;
 
 listAndKanbanToggle.addEventListener("click", () => {
-    isDraggable = !isDraggable;
+  isDraggable = !isDraggable;
 
-    const allTasks = document.querySelectorAll(".mainTask");
-    allTasks.forEach(task => {
-      task.draggable = isDraggable;
+  const allTasks = document.querySelectorAll(".mainTask");
+  allTasks.forEach((task) => {
+    task.draggable = isDraggable;
 
-      task.style.cursor = "grab";
+    task.style.cursor = "grab";
 
-      const checkbox = task.querySelector(".checkbox");
+    const checkbox = task.querySelector(".checkbox");
 
-      if (checkbox && checkbox.checked) {
-        allDoneDropZone.appendChild(task);
-      } else {
-        toDoDropZone.appendChild(task);
-      }
-    });
+    if (checkbox && checkbox.checked) {
+      allDoneDropZone.appendChild(task);
+    } else {
+      toDoDropZone.appendChild(task);
+    }
+  });
 
-    toDoList.addEventListener("dragstart", (e) => {
-      if (e.target.classList.contains("mainTask")) {
-        e.target.classList.add("dragging");
-      }
-    });
+  taskList.classList.toggle("drag-mode", isDraggable);
 
-    toDoList.addEventListener("dragend", (e) => {
-      if (e.target.classList.contains("mainTask")) {
-        e.target.classList.remove("dragging");
-      };
-    });
+  dropZones.style.display = isDraggable ? "flex" : "none";
 
-    taskList.classList.toggle("drag-mode", isDraggable);
-
-    dropZones.style.display = isDraggable ? "flex" : "none";
-
-    noTasksYetAlert.style.display = "none";
+  noTasksYetAlert.style.display = "none";
 });
 
-[toDoDropZone, inProgressDropZone, allDoneDropZone].forEach(zone => {
-      zone.addEventListener("dragover", (e) => {
-        e.preventDefault();
-        zone.classList.add("drag-over-active");
-      })
+toDoList.addEventListener("dragstart", (e) => {
+  if (e.target.classList.contains("mainTask")) {
+    e.target.classList.add("dragging");
+  }
+});
 
-      zone.addEventListener("dragleave", () => {
-        zone.classList.remove("drag-over-active");
-      })
+toDoList.addEventListener("dragend", (e) => {
+  if (e.target.classList.contains("mainTask")) {
+    e.target.classList.remove("dragging");
+  }
+});
 
-      zone.addEventListener("drop", (e) => {
-        e.preventDefault();
-        zone.classList.remove("drag-over-active");
+[toDoDropZone, inProgressDropZone, allDoneDropZone].forEach((zone) => {
+  zone.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    zone.classList.add("drag-over-active");
+  });
 
-        const draggedTask = document.querySelector(".dragging");
+  zone.addEventListener("dragleave", () => {
+    zone.classList.remove("drag-over-active");
+  });
 
-        if (draggedTask) {
-          zone.appendChild(draggedTask);
-        }
-    });
+  zone.addEventListener("drop", (e) => {
+    e.preventDefault();
+    zone.classList.remove("drag-over-active");
+
+    const draggedTask = document.querySelector(".dragging");
+
+    if (draggedTask) {
+      zone.appendChild(draggedTask);
+    }
+  });
 });
 
 addBtn.addEventListener("click", () => {
   taskCreationDiv.style.display = "flex";
-  noTasksYetAlert.style.display = taskList.innerHTML.trim() === "" ? "none" : "inline";
+  noTasksYetAlert.style.display =
+    taskList.innerHTML.trim() === "" ? "inline" : "none";
   toDoList.style.height = "495px";
   focusTimer.style.height = "496.5px";
 });
 
 cancelTaskCreationBtn.addEventListener("click", () => {
   taskCreationDiv.style.display = "none";
-  noTasksYetAlert.style.display = taskList.innerHTML.trim() === "" ? "none" : "inline";
+  noTasksYetAlert.style.display =
+    taskList.innerHTML.trim() === "" ? "none" : "inline";
   toDoList.style.height = "328.5px";
   focusTimer.style.height = "330px";
 });
@@ -362,7 +456,7 @@ addTaskBtn.addEventListener("click", () => {
     const dateObject = new Date(taskDate + "T00:00:00");
     formattedDate = dateObject.toLocaleDateString("en-US", {
       month: "short",
-      day: "numeric"
+      day: "numeric",
     });
   }
 
@@ -374,8 +468,8 @@ addTaskBtn.addEventListener("click", () => {
   taskOptionsBtnDiv.className = "taskOptionsBtnDiv";
 
   const taskOptionsBtn = document.createElement("button");
-  taskOptionsBtn.className = "taskOptionsBtn"
-  taskOptionsBtn.innerHTML = `<img class="taskOptionsBtnIcon" src="Images/Task Options Icon.png" alt="Task Options Icon">`
+  taskOptionsBtn.className = "taskOptionsBtn";
+  taskOptionsBtn.innerHTML = `<img class="taskOptionsBtnIcon" src="Images/Task Options Icon.png" alt="Task Options Icon">`;
   taskOptionsBtn.style.display = "none";
 
   const taskOptions = document.createElement("div");
@@ -400,20 +494,20 @@ addTaskBtn.addEventListener("click", () => {
     calendar.getEventById(listItem.dataset.eventId)?.remove();
     updateTasksDoneCount();
     showNoTasksYet();
-  })
+  });
 
   const taskPriorityValue = taskPrioritySelector.value;
 
-  let eventColor = newTheme === "dark" ? "#06bdf9" : "#a9d6fb"; 
+  let eventColor = isDark ? "#06bdf9" : "#a9d6fb";
 
   if (taskPriorityValue === "Low") {
-      eventColor = "#90ee90";
+    eventColor = "#90ee90";
   } else if (taskPriorityValue === "Medium") {
-      eventColor = "#ffcc00";
+    eventColor = "#ffcc00";
   } else if (taskPriorityValue === "High") {
-      eventColor = "#ff6b6b";
+    eventColor = "#ff6b6b";
   } else {
-      eventColor = newTheme === "dark" ? "#06bdf9" : "#a9d6fb";
+    eventColor = isDark ? "#06bdf9" : "#a9d6fb";
   }
 
   if (taskText !== "") {
@@ -440,6 +534,7 @@ addTaskBtn.addEventListener("click", () => {
     const taskTextSpan = document.createElement("span");
     taskTextSpan.className = "taskTextSpan";
     taskTextSpan.textContent = taskText;
+    taskTextSpan.dataset.taskText = taskText;
 
     const taskAttributes = document.createElement("div");
     taskAttributes.className = "taskAttributes";
@@ -460,7 +555,8 @@ addTaskBtn.addEventListener("click", () => {
     taskDateImg.alt = "Date Icon";
 
     taskDateAndTimeSpan.textContent =
-      (formattedDate ? "Due " + formattedDate : "") + (taskTime ? " at " + taskTime : "");
+      (formattedDate ? "Due " + formattedDate : "") +
+      (taskTime ? " at " + taskTime : "");
 
     const taskStatusSpan = document.createElement("span");
     taskStatusSpan.className = "taskStatusSpan";
@@ -481,15 +577,15 @@ addTaskBtn.addEventListener("click", () => {
     taskAttributes.appendChild(taskPrioritySpan);
     taskDateAndTime.appendChild(taskDateImg);
     taskDateAndTime.appendChild(taskDateAndTimeSpan);
-    if(taskDate || taskTime) {
-      
+    if (taskDate || taskTime) {
     }
     taskAttributes.appendChild(taskStatusSpan);
     taskContents.appendChild(taskAttributes);
     mainTask.appendChild(taskContents);
     taskOptionsBtnDiv.appendChild(taskOptionsBtn);
     taskOptionsBtn.addEventListener("click", () => {
-      taskOptions.style.display = taskOptions.style.display === "none" ? "block" : "none";
+      taskOptions.style.display =
+        taskOptions.style.display === "none" ? "block" : "none";
     });
     taskOptionsBtnDiv.appendChild(taskOptions);
     mainTask.appendChild(taskOptionsBtnDiv);
@@ -503,25 +599,26 @@ addTaskBtn.addEventListener("click", () => {
         backgroundColor: eventColor,
         extendedProps: {
           priority: taskPrioritySelector.value,
-          status: taskStatusSelector.value
-        }
-      })
+          status: taskStatusSelector.value,
+        },
+      });
+      listItem.dataset.eventId = event.id;
     }
     mainTask.addEventListener("mouseenter", () => {
       taskOptionsBtn.style.display = "inline";
-    })
+    });
     mainTask.addEventListener("mouseleave", () => {
       if (taskOptions.style.display === "none") {
         taskOptionsBtn.style.display = "none";
       }
-    })
+    });
     mainTask.addEventListener("click", (e) => {
       updateTasksDoneCount();
       if (e.target === checkbox) return;
 
       checkbox.checked = !checkbox.checked;
       checkbox.dispatchEvent(new Event("change"));
-    })
+    });
     taskList.appendChild(listItem);
     localStorage.setItem("tasks", taskList.innerHTML);
     updateTasksDoneCount();
@@ -529,7 +626,10 @@ addTaskBtn.addEventListener("click", () => {
     focusedTaskOption.value = taskText;
     focusedTaskOption.textContent = taskText;
     taskSelectionDropdown.appendChild(focusedTaskOption);
-    localStorage.setItem("taskSelectionOptions", taskSelectionDropdown.innerHTML);
+    localStorage.setItem(
+      "taskSelectionOptions",
+      taskSelectionDropdown.innerHTML,
+    );
     taskInput.value = "";
     taskDateInput.value = "";
     taskTimeInput.value = "";
@@ -566,11 +666,9 @@ function updateTasksDoneCount() {
   const tasksLeftDisplay = document.querySelector(".numberOfTasksLeft");
   if (tasksLeftDisplay) {
     tasksLeftDisplay.textContent = tasksLeft;
-  } else {
-    tasksLeftDisplay.textContent = "0";
   }
 
-  const totalTasksDisplay = document.querySelector(".numberOfTasksTotal")
+  const totalTasksDisplay = document.querySelector(".numberOfTasksTotal");
   if (totalTasksDisplay) {
     totalTasksDisplay.textContent = `of ${totalTasks} total`;
   }
@@ -635,22 +733,22 @@ pauseTimerBtn.style.display = "none";
 function updateTimerDisplay() {
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
-  timerMinutes.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  timerMinutes.textContent = `${minutes}:${seconds.toString().padStart(2, "0")}`;
 }
 
 function updateRing(timeLeft) {
   const fraction = timeLeft / totalTime;
-  const offset = circumference - (fraction * circumference);
+  const offset = circumference - fraction * circumference;
   timerProgressRing.style.strokeDashoffset = offset;
 }
 
-lengthButtons.forEach(button => {
+lengthButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const minutes = parseInt(button.textContent);
     totalTime = minutes * 60;
     restartTimer();
-  })
-})
+  });
+});
 
 function startTimer() {
   if (isRunning) return;
@@ -659,12 +757,15 @@ function startTimer() {
   focusedTaskCheckbox.className = "focusedTaskCheckbox";
   focusedTaskCheckbox.dataset.order = "1";
 
-  const selectedFocusedTask = taskSelectionDropdown.options[taskSelectionDropdown.selectedIndex].text;
+  const selectedFocusedTask =
+    taskSelectionDropdown.options[taskSelectionDropdown.selectedIndex].text;
   currentFocusedTask.textContent = "Focusing on: " + selectedFocusedTask;
   currentFocusedTask.style.display = "inline";
   currentFocusedTask.dataset.order = "2";
 
-  const currentFocusedTaskDiv = document.querySelector(".currentFocusedTaskDiv");
+  const currentFocusedTaskDiv = document.querySelector(
+    ".currentFocusedTaskDiv",
+  );
   currentFocusedTaskDiv.style.gap = "5px";
   currentFocusedTaskDiv.style.display = "flex";
   taskSelectionDropdown.style.display = "none";
@@ -685,7 +786,7 @@ function startTimer() {
       clearInterval(intervalId);
       isRunning = false;
       if (Notification.permission === "granted") {
-        new Notification("Focus timer finished! Take a break.")
+        new Notification("Focus timer finished! Take a break.");
       }
       updateFocusSessionsCount();
       restartTimer();
@@ -703,7 +804,7 @@ function pauseTimer() {
 function restartTimer() {
   clearInterval(intervalId);
   isRunning = false;
-  totalSeconds = totalTime
+  totalSeconds = totalTime;
   updateTimerDisplay();
   updateRing(totalTime);
   startTimerBtn.style.display = "inline";
@@ -718,3 +819,30 @@ pauseTimerBtn.addEventListener("click", pauseTimer);
 restartTimerBtn.addEventListener("click", restartTimer);
 
 updateTimerDisplay();
+
+function getTasksAsData() {
+  const items = document.querySelectorAll(".listItem");
+  return Array.from(items).map((item) => ({
+    title:
+      item.querySelector("span")?.dataset.taskText ||
+      item.querySelector("span")?.textContent,
+    dueDate: item.dataset.dueDate || null,
+    dueTime: item.dataset.dueTime || null,
+    priority: item.dataset.priority || null,
+    status: item.dataset.status || null,
+    done: item.querySelector(".checkbox")?.checked || false,
+  }));
+}
+
+async function getSuggestedPriorities() {
+  const tasks = getTasksAsData();
+
+  const res = await fetch("http://localhost:5000/api/ai/priorities", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ tasks }),
+  });
+
+  const data = await res.json();
+  return data;
+}
