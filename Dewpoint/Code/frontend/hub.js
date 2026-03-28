@@ -1,9 +1,12 @@
+const overlay = document.querySelector(".overlay");
 const askForNotifications = document.querySelector(".askForNotifications");
 const enableNotificationsBtn = document.querySelector(
   ".enableNotificationsBtn",
 );
 const closeNotiPopup = document.querySelector(".closeNotiPopup");
 const sidebar = document.querySelector(".sidebar");
+const hamburgerBtn = document.querySelector(".hamburgerBtn");
+const closeSidebarBtn = document.querySelector(".closeSidebarBtn");
 const dashboardBtn = document.querySelector(".dashboardBtn");
 const calendarBtn = document.querySelector(".calendarBtn");
 const mainContent = document.querySelector(".mainContent");
@@ -14,6 +17,8 @@ const currentDate = document.querySelector(".currentDate");
 const dynamicGreeting = document.querySelector(".greeting");
 const miniAnalytics = document.querySelector(".miniAnalytics");
 const workAreaSplit = document.querySelector(".workAreaSplit");
+const section1 = document.querySelector(".section1");
+const section2 = document.querySelector(".section2");
 const toDoList = document.querySelector(".toDoList");
 const listAndKanbanToggle = document.querySelector(".listAndKanbanToggle");
 const addBtn = document.querySelector(".addBtn");
@@ -55,6 +60,12 @@ const pauseTimerBtn = document.querySelector(".pauseTimerBtn");
 const restartTimerBtn = document.querySelector(".restartTimerBtn");
 const themeBtn = document.querySelector(".themeBtn");
 const notes = document.querySelector(".notes");
+const addBtn2 = document.querySelector(".addBtn2");
+const noteCreationDiv = document.querySelector(".noteCreationDiv");
+const noteInput = document.querySelector(".noteInput");
+const noteColorOptions = document.querySelectorAll(".noteColorOptions button");
+const cancelNoteCreationBtn = document.querySelector(".cancelNoteCreationBtn");
+const addNoteBtn = document.querySelector(".addNoteBtn");
 const calendarSection = document.querySelector(".calendar");
 
 let decrastinatorIntervalId = null;
@@ -84,16 +95,55 @@ document.addEventListener("DOMContentLoaded", function () {
 function responsiveWebsite() {
   if (window.innerWidth < 768) {
     console.log("Mobile");
+    hamburgerBtn.style.display = "flex";
+    sidebar.style.display = "none";
+    section1.style.flexDirection = "column";
+    section2.style.flexDirection = "column";
+    mainContent.style.alignItems = "center";
   } else {
     console.log("Desktop");
+    hamburgerBtn.style.display = "none";
+    sidebar.style.display = "flex";
+    section1.style.flexDirection = "row";
+    section2.style.flexDirection = "row";
+    mainContent.style.alignItems = "flex-start";
   }
 }
+
+hamburgerBtn.addEventListener("click", () => {
+  const isSidebar = document.documentElement.classList.toggle("isSidebar");
+
+  if (isSidebar) {
+    hamburgerBtn.style.display = "none";
+    sidebar.style.display = "flex";
+    closeSidebarBtn.style.display = "flex";
+    overlay.style.display = "block";
+
+    document.querySelectorAll("body > :not(.sidebar):not(.overlay)").forEach((el) => (el.inert = true));
+
+    overlay.onclick = () => {
+      hamburgerBtn.click();
+    };
+  } else {
+    hamburgerBtn.style.display = "flex";
+    sidebar.style.display = "none";
+    closeSidebarBtn.style.display = "none";
+    overlay.style.display = "none";
+    document.querySelectorAll("body > :not(.sidebar):not(.overlay)").forEach((el) => (el.inert = false));
+  }
+});
+
+closeSidebarBtn.addEventListener("click", () => {
+  hamburgerBtn.click();
+});
 
 window.addEventListener("resize", responsiveWebsite);
 responsiveWebsite();
 
 window.addEventListener("load", () => {
   taskCreationDiv.style.display = "none";
+
+  closeSidebarBtn.style.display = "none";
 
   localStorage.getItem("taskSelectionOptions")
     ? (taskSelectionDropdown.innerHTML = localStorage.getItem(
@@ -204,9 +254,6 @@ AIAssistantBtn.addEventListener("click", () => {
   const isAIView = document.documentElement.classList.toggle("AIView");
 
   if (isAIView) {
-    const AIOverlay = document.createElement("div");
-    AIOverlay.className = "AIOverlay";
-
     const AIDiv = document.createElement("div");
     AIDiv.className = "AIDiv";
 
@@ -244,13 +291,15 @@ AIAssistantBtn.addEventListener("click", () => {
     });
 
     AIDiv.append(AIPrioritySuggestionBtn, AIPrioritySuggestions);
-    document.body.append(AIOverlay, AIDiv);
+    document.body.appendChild(AIDiv);
+    overlay.style.display = "block";
     document
-      .querySelectorAll("body > :not(.AIDiv):not(.AIOverlay)")
+      .querySelectorAll("body > :not(.AIDiv):not(.;overlay)")
       .forEach((el) => (el.inert = true));
   } else {
-    document.querySelector(".AIOverlay")?.remove();
+    document.querySelector(".overlay")?.remove();
     document.querySelector(".AIDiv")?.remove();
+    overlay.style.display = "none";
     document.querySelectorAll("body >  *").forEach((el) => (el.inert = false));
   }
 });
@@ -260,9 +309,6 @@ decrastinatorBtn.addEventListener("click", () => {
     document.documentElement.classList.toggle("decrastinatorView");
 
   if (isDecrastinatorView) {
-    const decrastinatorOverlay = document.createElement("div");
-    decrastinatorOverlay.className = "decrastinatorOverlay";
-
     const decrastinatorDiv = document.createElement("div");
     decrastinatorDiv.className = "decrastinatorDiv";
 
@@ -322,15 +368,17 @@ decrastinatorBtn.addEventListener("click", () => {
     });
 
     decrastinatorDiv.appendChild(decrastinatorMinutesDiv);
-    document.body.append(decrastinatorOverlay, decrastinatorDiv);
+    document.body.appendChild(decrastinatorDiv);
+    overlay.style.display = "block";
     document
       .querySelectorAll(
-        "body > :not(.decrastinatorDiv):not(.decrastinatorOverlay)",
+        "body > :not(.decrastinatorDiv):not(.overlay)",
       )
       .forEach((el) => (el.inert = true));
   } else {
-    document.querySelector(".decrastinatorOverlay")?.remove();
+    document.querySelector(".overlay")?.remove();
     document.querySelector(".decrastinatorDiv")?.remove();
+    overlay.style.display = "none";
     document.querySelectorAll("body >  *").forEach((el) => (el.inert = false));
     clearInterval(decrastinatorIntervalId);
   }
@@ -803,7 +851,7 @@ function pauseTimer() {
 
 function restartTimer() {
   clearInterval(intervalId);
-  isRunning = false;
+  isRunning = false; 
   totalSeconds = totalTime;
   updateTimerDisplay();
   updateRing(totalTime);
@@ -819,6 +867,10 @@ pauseTimerBtn.addEventListener("click", pauseTimer);
 restartTimerBtn.addEventListener("click", restartTimer);
 
 updateTimerDisplay();
+
+addBtn2.addEventListener("click", () => {
+  noteCreationDiv.style.display = "flex";
+})
 
 function getTasksAsData() {
   const items = document.querySelectorAll(".listItem");

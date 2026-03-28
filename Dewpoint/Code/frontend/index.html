@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   </head>
 <body>
+  <div class="overlay"></div>
 
   <!-- Notification Banner -->
   <div class="askForNotifications">
@@ -24,6 +25,10 @@
     <button class="closeNotiPopup">
       ✕
     </button>
+  </div>
+
+  <div class="hamburgerBtn">
+    <img src="Images/Hamburger Icon.png" class="hamburgerIcon">
   </div>
 
   <!-- Navigation -->
@@ -45,6 +50,7 @@
       <img src="Images/Settings Icon.png" class="settingsIcon">
       Settings
     </button>
+    <button class="closeSidebarBtn">✕</button>
   </nav>
 
   <!-- Main Content -->
@@ -92,11 +98,18 @@
           <img src="Images/Clock.png" class="clockImage">
         </div>
 
+        <div class="numberofFocusMinutesDiv">
+          <p class="focusMinutesHeader">FOCUS TIME</p>
+          <p class="numberOfFocusMinutes">0</p>
+          <p class="focusMinutesFooter">total minutes</p>
+          <img src="Images/Decrastinator Icon.png" class="lightningImage">
+        </div>
+
         <div class="numberOfSessionsDiv">
           <p class="sessionsLeftHeader">SESSIONS</p>
           <p class="numberOfSessionsDone">0</p>
           <p class="sessionsFooter">focus sessions</p>
-          <img src="Images/Decrastinator Icon.png" class="lightningImage">
+          <img src="Images/Date Icon.png" class="dateImage">
         </div>
       </div>
     </div>
@@ -152,7 +165,7 @@
               </select>
             </div>
 
-            <div class="addAndCancelButtons">
+            <div class="addAndCancelTaskButtons">
               <button class="cancelTaskCreationBtn">Cancel</button>
               <button type="button" class="addTaskBtn"><img class="addTaskBtnIcon" src="Images/Add Task Icon.png" alt="Add Task Icon">Add Task</button>
             </div>
@@ -224,19 +237,41 @@
       </div>
 
       <div class="section2">
-        <section class="notes">
-          <div class="notesHeader">
-            <h1 class="notesName">Notes</h1>
-            <div class="options">
-              <button class="addBtn2">
-                Add
-              </button>
-          </div>
+        <div class="notesAndActivityDiv">
+          <section class="notes">
+            <div class="notesHeader">
+              <h1 class="notesName">Quick Notes</h1>
+              <div class="options">
+                <button class="addBtn2">
+                  Add
+                </button>
+            </div>
 
-            <ul class="notesList">
-              <!-- Notes items will dynamically show up here -->
-            </ul>
-        </section>
+            <div class="noteCreationDiv">
+              <input class="noteInput" type="text" placeholder="Write something...">
+              <div class="noteColorOptions">
+                <button class="defaultColor"></button>
+                <button class="yellowColor"></button>
+                <button class="orangeColor"></button>
+                <button class="greenColor"></button>
+                <button class="blueColor"></button>
+                <button class="purpleColor"></button>
+              </div>
+              <div class="x">
+                <button class="cancelNoteCreationBtn">Cancel</button>
+                <button class="addNoteBtn">Add Note</button>
+              </div>
+            </div>
+
+              <ul class="notesList">
+                <!-- Notes items will dynamically show up here -->
+              </ul>
+          </section>
+
+          <section class="activity">
+            <h1 class="activityName">Activity</h1>
+          </section>
+        </div>
 
         <section class="calendar">
           <div id="calendar"></div>

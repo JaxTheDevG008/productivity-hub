@@ -14,7 +14,6 @@
   --input-bd-color: oklch(100% 0.00011 271.152);
   --task-bg-color: oklch(100% 0.00011 271.152);
   --task-hover-bg-color: oklch(93.1% 0.00011 271.152);
-  --current-date-text-color: oklch(75.306% 0.06089 243.311);
   --theme-btn-bg-color: oklch(20.687% 0.00986 285.48);
   --theme-btn-hover-bg-color: oklch(36.564% 0.02398 285.138);
   --task-creation-div-bg-color: oklch(96.416% 0.00011 271.152);
@@ -56,7 +55,6 @@
   --input-bd-color: oklch(11.779% 0.05035 260.832);
   --task-bg-color: oklch(18.717% 0.00202 286.054);
   --task-hover-bg-color: oklch(20.522% 0.01237 270.76);
-  --current-date-text-color: oklch(65.194% 0.12939 230.07);
   --theme-btn-bg-color: oklch(93.1% 0.00011 271.152);
   --theme-btn-hover-bg-color: oklch(77.311% 0.00009 271.152);
   --task-creation-div-bg-color: oklch(17.24% 0.0326 258.33);
@@ -107,7 +105,6 @@ button {
 button:hover {
   cursor: pointer;
   transform: scale(1.07);
-  background-color: var(--btn-hover-bg-color);
 }
 
 .askForNotifications {
@@ -210,22 +207,22 @@ button:hover {
 .sidebar {
   padding: 15px;
   border: none;
-  height: min(985px, 100%);
-  margin-top: 0px;
-  border-radius: 40px;
+  height: 100vh;
   position: fixed;
   z-index: 9991;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 150px;
-  border-radius: 20px;
+  width: 225px;
   background: var(--sidebar-bg);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.3);
   color: var(--text-color);
+  box-sizing: border-box;
+  top: 0px;
+  left: 0px;
 }
 
 .sidebarHeader {
@@ -248,7 +245,7 @@ button:hover {
   padding: 10px;
   background-color: var(--sidebar-bg-color);
   border: none;
-  border-radius: 120px;
+  border-radius: 12px;
   position: relative;
   height: 39px;
   font-size: 1rem;
@@ -270,6 +267,38 @@ button:hover {
 }
 
 [data-theme="dark"] .sidebar img {
+  filter: brightness(0) invert(1);
+  opacity: 0.7;
+  transition: 0.2s ease;
+}
+
+.hamburgerBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+  background-color: var(--sidebar-bg-color);
+  border: none;
+  border-radius: 12px;
+  position: relative;
+  height: 39px;
+  font-size: 1rem;
+  color: var(--text-color);
+}
+
+.hamburgerBtn:hover {
+  background-color: var(--btn-bg-color);
+  cursor: pointer;
+}
+
+.hamburgerIcon {
+  width: 38px;
+  height: 38px;
+  filter: brightness(0);
+}
+
+[data-theme="dark"] .hamburgerIcon {
   filter: brightness(0) invert(1);
   opacity: 0.7;
   transition: 0.2s ease;
@@ -300,7 +329,7 @@ body.dashboardActive .notes {
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   margin-left: 300px;
 }
@@ -308,21 +337,19 @@ body.dashboardActive .notes {
 .header {
   display: flex;
   gap: 15px;
+  flex-direction: column;
 }
 
 .commandCenter {
   display: flex;
   align-items: center;
-  width: fit-content;
+  width: 1160px;
   position: relative;
-  left: 30px;
   padding: 20px;
   height: fit-content;
-  border: 1px solid var(--bd-color);
   border-radius: 20px;
   margin-top: 15px;
   margin-bottom: 0px;
-  background-color: var(--work-areas-bg-color);
 }
 
 body.calendarView .commandCenter,
@@ -336,8 +363,8 @@ body.calendarView .notes {
 
 .actualCommands {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  gap: 8px;
 }
 
 .searchDiv {
@@ -370,7 +397,7 @@ body.calendarView .notes {
   position: relative;
   width: 300px;
   font-weight: bold;
-  color: var(--current-date-text-color);
+  color: oklch(75.306% 0.06089 243.311);
 }
 
 .greeting {
@@ -393,7 +420,7 @@ body.calendarView .notes {
   padding: 10px;
   background-color: var(--btn-bg-color);
   border: 1px solid var(--bd-color);
-  border-radius: 120px;
+  border-radius: 12px;
   position: relative;
 }
 
@@ -413,15 +440,15 @@ body.calendarView .notes {
   transition: 0.2s ease;
 }
 
-.AIOverlay,
-.decrastinatorOverlay {
+.overlay {
+  display: none;
   position: fixed;
   top: 0px;
   left: 0px;
   width: 100vw;
   height: 100vh;
   background: oklch(0% 0 0 / 0.3);
-  z-index: 999999;
+  z-index: 9990;
 }
 
 .AIDiv {
@@ -498,7 +525,7 @@ body.calendarView .notes {
   padding: 10px;
   background-color: var(--btn-bg-color);
   border: 1px solid var(--bd-color);
-  border-radius: 120px;
+  border-radius: 12px;
   position: relative;
 }
 
@@ -564,7 +591,7 @@ body.calendarView .notes {
   order: 2;
   padding: 10px;
   border: none;
-  border-radius: 120px;
+  border-radius: 12px;
   position: relative;
   width: 39px;
   height: 39px;
@@ -603,11 +630,8 @@ body.calendarView .notes {
 .miniAnalytics {
   display: flex;
   position: relative;
-  gap: 10px;
+  gap: 20px;
   margin: 10px;
-  left: 30px;
-  margin-top: 15px;
-  margin-bottom: 0px;
 }
 
 .miniAnalytics div {
@@ -616,7 +640,7 @@ body.calendarView .notes {
   padding: 10px 40px;
   border-radius: 20px;
   position: relative;
-  width: 75px;
+  width: 125px;
   height: 122.5px;
   overflow: hidden;
 }
@@ -628,7 +652,7 @@ body.calendarView .notes {
   transition: 0.2s ease;
   width: 205px;
   top: 100px;
-  left: 100px;
+  left: 160px;
   transform: translate(-50%, -50%);
   mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
   opacity: 15%;
@@ -637,10 +661,11 @@ body.calendarView .notes {
 .clockImage {
   position: absolute;
   filter: invert(78%) sepia(54%) saturate(718%) hue-rotate(354deg) brightness(101%) contrast(98%);
+  opacity: 0.7;
   transition: 0.2s ease;
   width: 225px;
   top: 100px;
-  left: 100px;
+  left: 160px;
   transform: translate(-50%, -50%);
   mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
   opacity: 15%;
@@ -653,7 +678,20 @@ body.calendarView .notes {
   transition: 0.2s ease;
   width: 225px;
   top: 120px;
-  left: 110px;
+  left: 160px;
+  transform: translate(-50%, -50%);
+  mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+  opacity: 15%;
+}
+
+.dateImage {
+  position: absolute;
+  filter: invert(61%) sepia(85%) saturate(1600%) hue-rotate(215deg) brightness(101%) contrast(101%);
+  opacity: 0.7;
+  transition: 0.2s ease;
+  width: 225px;
+  top: 120px;
+  left: 160px;
   transform: translate(-50%, -50%);
   mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
   opacity: 15%;
@@ -661,6 +699,7 @@ body.calendarView .notes {
 
 .tasksDoneHeader,
 .tasksLeftHeader,
+.focusMinutesHeader,
 .sessionsLeftHeader {
   font-size: 19px;
   color: gray;
@@ -673,6 +712,7 @@ body.calendarView .notes {
 
 .numberOfTasksDone,
 .numberOfTasksLeft,
+.numberOfFocusMinutes,
 .numberOfSessionsDone {
   font-size: 35px;
   color: var(--text-color);
@@ -685,9 +725,10 @@ body.calendarView .notes {
 
 .numberOfTasksTotal,
 .tasksLeftFooter,
+.focusMinutesFooter,
 .sessionsFooter {
   font-size: 16px;
-  color: var(--text-color);
+  color: gray;
   margin: 0;
   position: absolute;
   bottom: 0;
@@ -699,6 +740,7 @@ body.calendarView .notes {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 20px;
   justify-content: center;
 }
 
@@ -707,22 +749,23 @@ body.calendarView .notes {
   width: 1150px;
   border: 1px solid var(--bd-color);
   margin-top: 15px;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
 }
 
 .section1 {
   display: flex;
   flex-direction: row;
+  gap: 20px;
 }
 
 .section2 {
   display: flex;
   flex-direction: row;
+  gap: 20px;
 }
 
 .toDoList {
   position: relative;
-  left: 30px;
   padding: 20px;
   width: 700px;
   height: 328.5px;
@@ -733,7 +776,6 @@ body.calendarView .notes {
   margin-top: 10px;
   z-index: 1;
   border: 1px solid var(--bd-color);
-  margin-bottom: 0px;
   overflow-y: auto;
   background-color: var(--work-areas-bg-color);
 }
@@ -776,7 +818,7 @@ body.calendarView .notes {
   color: var(--text-color);
   border: 1px solid var(--bd-color);
   font-weight: 600;
-  border-radius: 20px;
+  border-radius: 12px;
   padding: 5px 10px;
   height: 35px;
 }
@@ -833,12 +875,11 @@ body.calendarView .notes {
   background-color: var(--btn-bg-color);
   color: var(--text-color);
   font-weight: 600;
-  margin-top: 5px;
   width: 55px;
   height: 35px;
   border: 1px solid var(--bd-color);
-  border-radius: 20px;
-  top: 17px;
+  border-radius: 12px;
+  top: 22px;
 }
 
 .addBtn:hover {
@@ -857,8 +898,8 @@ body.calendarView .notes {
   width: 35px;
   height: 35px;
   border: none;
-  padding: 5px 10px;
-  border-radius: 20px;
+  padding: 20px;
+  border-radius: 12px;
   font-size: 16px;
   display: flex;
   align-items: center;
@@ -905,7 +946,7 @@ input {
   margin: 5px;
   padding: 10px 15px;
   background-color: var(--input-bg);
-  border-radius: 20px;
+  border-radius: 12px;
   font-family: Arial, sans-serif;
 }
 
@@ -961,7 +1002,7 @@ input:focus {
   border: none;
   padding: 1px 15px;
   padding-right: 5px;
-  border-radius: 20px;
+  border-radius: 12px;
   position: relative;
   height: 36px;
   left: 0px;
@@ -994,13 +1035,13 @@ input:focus {
   border: none;
   padding: 1px 15px;
   padding-right: 5px;
-  border-radius: 20px;
+  border-radius: 12px;
   position: relative;
   height: 36px;
   left: 0px;
 }
 
-.addAndCancelButtons {
+.addAndCancelTaskButtons {
   display: flex;
   flex-direction: row;
   gap: 10px;
@@ -1020,7 +1061,7 @@ input:focus {
   width: 120px;
   padding: 0 10px;
   border: 1px solid var(--bd-color);
-  border-radius: 20px;
+  border-radius: 12px;
   position: relative;
 }
 
@@ -1043,7 +1084,7 @@ input:focus {
 .cancelTaskCreationBtn {
   background-color: var(--btn-bg-color);
   border: 1px solid var(--bd-color);
-  border-radius: 20px;
+  border-radius: 12px;
   padding: 0px 10px;
   height: 36px;
   width: 75px;
@@ -1272,7 +1313,6 @@ input[type="checkbox"]:checked::before {
 
 .focusTimer {
   position: relative;
-  left: 30px;
   padding: 20px;
   width: 400px;
   height: 330px;
@@ -1280,7 +1320,6 @@ input[type="checkbox"]:checked::before {
   border-radius: 20px;
   display: flex;
   flex-direction: column;
-  margin-left: 20px;
   align-items: center;
   justify-content: center;
   background: var(--focus-timer-bg-color);
@@ -1327,7 +1366,7 @@ input[type="checkbox"]:checked::before {
   border: none;
   padding: 1px 15px;
   padding-right: 5px;
-  border-radius: 20px;
+  border-radius: 12px;
   position: relative;
   height: 36px;
   margin-bottom: 17px;
@@ -1390,7 +1429,7 @@ input[type="checkbox"]:checked::before {
   display: flex;
   padding: 10px;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   position: relative;
   font-weight: 1000;
   height: 35px;
@@ -1409,7 +1448,7 @@ input[type="checkbox"]:checked::before {
   display: flex;
   padding: 10px;
   border: none;
-  border-radius: 120px;
+  border-radius: 12px;
   position: relative;
   height: 39px;
   text-align: center;
@@ -1429,7 +1468,7 @@ input[type="checkbox"]:checked::before {
   display: flex;
   padding: 10px;
   border: none;
-  border-radius: 120px;
+  border-radius: 12px;
   position: relative;
   height: 39px;
   text-align: center;
@@ -1449,7 +1488,7 @@ input[type="checkbox"]:checked::before {
   display: flex;
   padding: 10px;
   border: none;
-  border-radius: 120px;
+  border-radius: 12px;
   position: relative;
   height: 39px;
   text-align: center;
@@ -1465,18 +1504,22 @@ input[type="checkbox"]:checked::before {
   transition: 0.2s ease;
 }
 
+.notesAndActivityDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
 .notes {
   position: relative;
-  top: 15px;
-  left: 10px;
   padding: 20px;
-  width: 400px;
+  width: 280px;
   height: 394px;
   border: 1px solid var(--bd-color);
   border-radius: 20px;
   display: flex;
   flex-direction: column;
-  margin-left: 20px;
   align-items: center;
   background-color: var(--work-areas-bg-color);
 }
@@ -1486,20 +1529,15 @@ input[type="checkbox"]:checked::before {
   gap: 10px;
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 1;
   width: 100%;
-  padding-top: 20px;
+  height: 75px;
   align-self: flex-start;
-  display: flex;
-  flex-direction: row-reverse;
 }
 
 .notesName {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  margin: 20px;
-  color: var(--text-color);
+  position: relative;
+  bottom: 5px;
   font-size: 1.2rem;
 }
 
@@ -1509,30 +1547,165 @@ input[type="checkbox"]:checked::before {
   color: var(--text-color);
   border: 1px solid var(--bd-color);
   font-weight: 600;
-  margin-top: 5px;
   width: 55px;
   height: 35px;
+  border-radius: 12px;
+  top: 22px;
+}
+
+.noteCreationDiv {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border: 1px solid var(--bd-color);
+  gap: 10px;
   border-radius: 20px;
-  top: 45px;
+  padding: 15px;
+  width: 250px;
+  background-color: var(--work-areas-bg-color);
+}
+
+.noteInput {
+  width: 200px;
+  height: 100px;
+  border: 1px solid var(--bd-color);
+  color: var(--text-color);
+  background-color: var(--work-areas-bg-color);
+  font-size: 1rem;
+}
+
+.noteColorOptions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  border: 1px solid var(--bd-color);
+  order: 0;
+  gap: 10px;
+  width: fit-content;
+  border-radius: 20px;
+  padding: 15px;
+  background-color: var(--work-areas-bg-color);
+}
+
+.noteColorOptions button {
+  border-radius: 20px;
+  width: 25px;
+  height: 25px;
+}
+
+.noteColorOptions button:hover {
+  cursor: pointer;
+  border: 2px solid var(--bg-color);
+}
+
+.noteColorOptions button:active {
+  transform: scale(1.07);
+  border: 2px solid var(--bg-color);
+}
+
+.defaultColor {
+  background-color: var(--btn-bg-color);
+  border: 2px solid var(--bd-color);
+}
+
+.yellowColor {
+  background-color: rgb(255, 213, 0);
+  border: 2px solid rgb(195, 195, 0);
+}
+
+.orangeColor {
+  background-color: rgb(255, 136, 0);
+  border: 2px solid rgb(205, 133, 0);
+}
+
+.greenColor {
+  background-color: rgb(0, 163, 111);
+  border: 2px solid green;
+}
+
+.blueColor {
+  background-color: rgb(0, 149, 255);
+  border: 2px solid rgb(0, 106, 255);
+}
+
+.purpleColor {
+  background-color: rgb(134, 0, 212);
+  border: 2px solid rgb(68, 14, 68);
+}
+
+.cancelAndAddNoteButtons {
+  display: flex;
+}
+
+.cancelNoteCreationBtn {
+  position: relative;
+  background-color: var(--btn-bg-color);
+  color: var(--text-color);
+  font-weight: 600;
+  padding: 10px 15px;
+  border: 1px solid var(--bd-color);
+  border-radius: 12px;
+}
+
+.cancelNoteCreationBtn:hover {
+  background-color: var(--btn-hover-bg-color);
+  cursor: pointer;
+}
+
+.addNoteBtn {
+  position: relative;
+  background-color: var(--btn-bg-color);
+  color: var(--text-color);
+  font-weight: 600;
+  padding: 10px 15px;
+  border: 1px solid var(--bd-color);
+  border-radius: 12px;
+}
+
+.addNoteBtn:hover {
+  background-color: var(--btn-hover-bg-color);
+  cursor: pointer;
+}
+
+.activity {
+  position: relative;
+  padding: 20px;
+  width: 280px;
+  height: 394px;
+  border: 1px solid var(--bd-color);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--work-areas-bg-color);
+}
+
+.activityName {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  margin: 20px;
+  color: var(--text-color);
+  font-size: 1.2rem;
 }
 
 .calendar {
   position: relative;
-  top: 5px;
-  left: 30px;
   padding: 20px;
-  width: 700px;
-  height: 460px;
+  width: 817px;
+  height: 640px;
   border-radius: 20px;
-  margin-top: 10px;
   border: 1px solid var(--bd-color);
   overflow-y: hidden;
   background-color: var(--work-areas-bg-color);
 }
 
 #calendar {
-  width: 700px;
-  height: 460px;
+  width: 817px;
+  height: 640px;
   overflow-y: hidden;
 }
 
@@ -1570,7 +1743,7 @@ body.calendarView .calendar {
 .fc .fc-button {
   background-color: transparent;
   border: none;
-  border-radius: 20px;
+  border-radius: 12px;
   color: var(--text-color);
   padding: 5px 10px;
   backdrop-filter: blur();
@@ -1628,5 +1801,5 @@ body.calendarView .calendar {
 .fc .fc-daygrid-day-number {
   text-align: left;
   flex-grow: 1;
-  margin: 5px;
+  margin: 10px;
 }
