@@ -791,6 +791,7 @@ body.calendarView .notes {
   flex-direction: column;
   z-index: 1;
   border: 1px solid var(--bd-color);
+  overflow-x: hidden;
   overflow-y: auto;
   background-color: var(--work-areas-bg-color);
 }
@@ -1141,6 +1142,7 @@ ul,
   justify-content: center;
   vertical-align: middle;
   margin: 0px;
+  overflow-x: hidden;
 }
 
 li,
