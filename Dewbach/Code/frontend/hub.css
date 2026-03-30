@@ -1238,10 +1238,17 @@ input[type="checkbox"]:checked::before {
   position: relative;
   text-align: left;
   padding: 5px 10px;
+  color: var(--text-color);
 }
 
 .taskTextSpan:hover {
   cursor: text;
+}
+
+.listItem.completed .taskTextSpan {
+  text-decoration: line-through;
+  color: gray !important;
+  opacity: 0.6;
 }
 
 .taskAttributes {

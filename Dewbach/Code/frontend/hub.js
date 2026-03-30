@@ -156,6 +156,20 @@ window.addEventListener("load", () => {
   if (savedTasks) {
     taskList.innerHTML = savedTasks;
     document.querySelectorAll(".listItem").forEach((listItem) => {
+      const checkbox = listItem.querySelector("input[type='checkbox']");
+      const storageKey = `checked-${listItem.id}`;
+
+      if (checkbox) {
+        checkbox.checked = localStorage.getItem(storageKey) === "true";
+
+        listItem.classList.toggle("completed", checkbox.checked);
+
+        checkbox.addEventListener("change", () => {
+          listItem.classList.toggle("completed", checkbox.checked);
+          localStorage.setItem(storageKey, checkbox.checked);
+          updateTasksDoneCount();
+        });
+      }
       const mainTask = listItem.querySelector(".mainTask");
       const taskOptionsBtn = mainTask.querySelector(".taskOptionsBtn");
       mainTask.addEventListener("mouseenter", () => {
@@ -489,6 +503,8 @@ cancelTaskCreationBtn.addEventListener("click", () => {
 addTaskBtn.addEventListener("click", () => {
   noTasksYetAlert.style.display = "none";
 
+  const taskId = crypto.randomUUID();
+
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
   checkbox.className = "checkbox";
@@ -569,10 +585,20 @@ addTaskBtn.addEventListener("click", () => {
     listItem.dataset.timeNotified = "false";
     listItem.dataset.dueDate = taskDate;
     listItem.dataset.dueTime = taskTime;
+    listItem.id = `task-${taskId}`;
 
     const mainTask = document.createElement("label");
     mainTask.className = "mainTask";
     mainTask.draggable = isDraggable;
+
+    mainTask.addEventListener("mouseenter", () => {
+      taskOptionsBtn.style.display = "inline";
+    });
+    mainTask.addEventListener("mouseleave", () => {
+      if (taskOptions.style.display === "none") {
+        taskOptionsBtn.style.display = "none";
+      }
+    });
 
     const taskContents = document.createElement("div");
     taskContents.className = "taskContents";
@@ -615,11 +641,13 @@ addTaskBtn.addEventListener("click", () => {
     checkbox.addEventListener("change", (e) => {
       updateTasksDoneCount();
       e.stopPropagation();
-      if (document.documentElement.getAttribute("data-theme") === "dark") {
-        taskTextSpan.style.color = checkbox.checked ? "gray" : "white";
-      } else {
-        taskTextSpan.style.color = checkbox.checked ? "gray" : "black";
-      }
+
+      listItem.classList.toggle("completed", checkbox.checked);
+
+      const storageKey = `checked-${listItem.id}`;
+      localStorage.setItem(storageKey, checkbox.checked);
+
+      localStorage.setItem("tasks", taskList.innerHTML);
     });
     taskTextAndCheckbox.appendChild(taskTextSpan);
     taskContents.appendChild(taskTextAndCheckbox);
@@ -653,21 +681,6 @@ addTaskBtn.addEventListener("click", () => {
       });
       listItem.dataset.eventId = event.id;
     }
-    mainTask.addEventListener("mouseenter", () => {
-      taskOptionsBtn.style.display = "inline";
-    });
-    mainTask.addEventListener("mouseleave", () => {
-      if (taskOptions.style.display === "none") {
-        taskOptionsBtn.style.display = "none";
-      }
-    });
-    mainTask.addEventListener("click", (e) => {
-      updateTasksDoneCount();
-      if (e.target === checkbox) return;
-
-      checkbox.checked = !checkbox.checked;
-      checkbox.dispatchEvent(new Event("change"));
-    });
     taskList.appendChild(listItem);
     localStorage.setItem("tasks", taskList.innerHTML);
     updateTasksDoneCount();
