@@ -896,6 +896,8 @@ addNoteBtn.addEventListener("click", () => {
   const noteOptionsDiv = document.createElement("div");
   noteOptionsDiv.className = "noteOptionsDiv";
 
+  
+
   mainNote.appendChild(noteOptionsDiv);
   notesList.appendChild(mainNote);
 })

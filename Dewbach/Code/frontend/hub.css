@@ -4,7 +4,7 @@
   --close-noti-popup-hover-bg-color: oklch(93.403% 0.00011 271.152);
   --bd-color: oklch(89.755% 0.0001 271.152);
   --text-color: black;
-  --sidebar-bg: rgba(255, 255, 255, 0.2);
+  --sidebar-bg: rgba(27, 54, 60, 0.2);
   --btn-hover-bg-color: oklch(75.306% 0.06089 243.311);
   --input-bg: oklch(93.1% 0.00011 271.152);
   --btn-bg-color: var(--input-bg);
@@ -45,7 +45,7 @@
   --close-noti-popup-hover-bg-color: oklch(11.779% 0.05035 260.832);
   --bd-color: oklch(33.289% 0.00004 271.152);
   --text-color: white;
-  --sidebar-bg: rgba(59, 59, 59, 0.2);
+  --sidebar-bg: rgba(27, 54, 60, 0.2);
   --btn-hover-bg-color: oklch(65.194% 0.12939 230.07);
   --input-bg: oklch(20.687% 0.00986 285.48);
   --btn-bg-color: var(--input-bg);
@@ -233,8 +233,9 @@ button:hover {
   justify-content: center;
   font-size: 1.2rem;
   padding: 10px;
-  background: linear-gradient(45deg, oklch(74.153% 0.11124 201.033), oklch(73.757% 0.14978 231.613), oklch(65.302% 0.17941 248.838));
+  background: linear-gradient(45deg, #a1c6d1, #1b363c, #2D545E);
   border-radius: 12px;
+  color: white;
 }
 
 .sidebar button {
