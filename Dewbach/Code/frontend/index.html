@@ -2,23 +2,23 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8"/>
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.20/index.global.min.js'></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
     <title>Dewbach</title>
-    <link rel="stylesheet" href="hub.css"/>
+    <link rel="stylesheet" href="style.css"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="icon" type="image/png" sizes="32x32" href="Images/Dewbach Favicon.png"/>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="32x32" href="Images/Dewbach-Favicon.png"/>
   </head>
 <body>
   <div class="overlay"></div>
 
   <!-- Notification Banner -->
   <div class="askForNotifications">
-    <p class="enableNotiMessage">
+    <div class="enableNotiMessage">
       Enable desktop notifications for the best task experience! (optional)
-    </p>
+    </div>
     <button class="enableNotificationsBtn">
       Enable Notifications
     </button>
@@ -28,26 +28,34 @@
   </div>
 
   <div class="hamburgerBtn">
-    <img src="Images/Hamburger Icon.png" class="hamburgerIcon">
+    <img src="Images/Hamburger-Icon.png" class="hamburgerIcon">
   </div>
 
   <!-- Navigation -->
   <nav class="sidebar">
-    <h1 class="sidebarHeader">Workspace</h1>
+    <div class="sidebarHeader">
+      <h1 class="workspaceLabel">Workspace</h1>
+      <hr class="sidebarHeaderSplit">
+    </div>
+
     <button class="dashboardBtn">
-      <img src="Images/Dashboard Icon.png" class="dashboardIcon">
+      <img src="Images/Dashboard-Icon.png" class="dashboardIcon">
       Dashboard
     </button>
+    <button class="whiteboardBtn">
+      <img src="Images/Whiteboard-Icon.png" class="whiteboardIcon">
+      Whiteboard
+    </button>
     <button class="calendarBtn">
-      <img src="Images/Date Icon.png" class="calendarIcon">
+      <img src="Images/Date-Icon.png" class="calendarIcon">
       Calendar
     </button>
     <button class="analyticsBtn">
-      <img src="Images/Analytics Icon.png" class="analyticsIcon">
+      <img src="Images/Analytics-Icon.png" class="analyticsIcon">
       Analytics
     </button>
     <button class="settingsBtn">
-      <img src="Images/Settings Icon.png" class="settingsIcon">
+      <img src="Images/Settings-Icon.png" class="settingsIcon">
       Settings
     </button>
     <button class="closeSidebarBtn">✕</button>
@@ -65,19 +73,23 @@
 
         <div class="actualCommands">
           <div class="searchDiv">
-            <img src="Images/Search Icon.png" class="searchBarIcon">
-            <input class="searchBar">
+            <img src="Images/Search-Icon.png" class="searchBarIcon">
+            <input class="searchBar" type="text" placeholder="Search for tasks and notes... (Ctrl/⌘ + K)">
+            <ul class="searchResultsMenu">
+              <!-- Search Results -->
+            </ul>
+            <div class="noSearchResults">No search results</div>
           </div>
 
           <div class="commandCenterBtns">
             <button class="themeBtn"></button>
 
-            <button class="AIAssistantBtn">
-              <img src="Images/AI Assistant Icon.png" class="AIAssistantIcon">
+            <button class="aiAssistantBtn">
+              <img src="Images/ai-Assistant-Icon.png" class="aiAssistantIcon">
             </button>
 
             <button class="decrastinatorBtn">
-              <img src="Images/Decrastinator Icon.png" class="decrastinatorIcon">
+              <img src="Images/Decrastinator-Icon.png" class="decrastinatorIcon">
             </button>
           </div>
         </div>
@@ -102,14 +114,14 @@
           <p class="focusMinutesHeader">FOCUS TIME</p>
           <p class="numberOfFocusMinutes">0</p>
           <p class="focusMinutesFooter">total minutes</p>
-          <img src="Images/Decrastinator Icon.png" class="lightningImage">
+          <img src="Images/Decrastinator-Icon.png" class="lightningImage">
         </div>
 
         <div class="numberOfSessionsDiv">
           <p class="sessionsLeftHeader">SESSIONS</p>
           <p class="numberOfSessionsDone">0</p>
           <p class="sessionsFooter">focus sessions</p>
-          <img src="Images/Date Icon.png" class="dateImage">
+          <img src="Images/Date-Icon.png" class="dateImage">
         </div>
       </div>
     </div>
@@ -121,12 +133,12 @@
 
       <div class="section1">
         <!-- To-Do List -->
-       <section class="toDoList">
+        <section class="toDoList">
           <div class="toDoListHeader">
             <h1 class="toDoListName">Tasks</h1>
             <div class="options">
               <button class="listAndKanbanToggle">
-                <img src="Images/Kanban Board Icon.png" class="KanbanBoardIcon">
+                <img src="Images/Kanban-Board-Icon.png" class="KanbanBoardIcon">
                 Kanban
               </button>
               <button class="addBtn">
@@ -138,8 +150,9 @@
           </div>
 
           <div class="noTasksYetAlert">
-            <h2 class="noTasksYet">No tasks yet!</h2>
-            <p class="tinyTip">Add a task to get started.</p>
+            <img src="Images/No-Tasks-Yet-Icon.png" class="noTasksYetIcon">
+            <h2 class="noTasksYet">No tasks yet</h2>
+            <p class="tinyTasksTip">Add a task to get started.</p>
           </div>
 
           <div class="taskCreationDiv">
@@ -149,7 +162,6 @@
 
             <div class="taskAttrCreation">
               <select class="taskPrioritySelector">
-                <option value="" disabled selected>No Priority</option>
                 <option class="noPriorityOption" value="None">None</option>
                 <option class="lowPriorityOption" value="Low">Low</option>
                 <option class="mediumPriorityOption" value="Medium">Medium</option>
@@ -167,7 +179,7 @@
 
             <div class="addAndCancelTaskButtons">
               <button class="cancelTaskCreationBtn">Cancel</button>
-              <button type="button" class="addTaskBtn"><img class="addTaskBtnIcon" src="Images/Add Task Icon.png" alt="Add Task Icon">Add Task</button>
+              <button type="button" class="addTaskBtn"><img class="addTaskBtnIcon" src="Images/Add-Task-Icon.png" alt="Add Task Icon">Add Task</button>
             </div>
           </div>
           
@@ -177,13 +189,13 @@
             </ul>
 
             <div class="dropZones">
-              <div class="toDoDropZone">
+              <div class="toDoDropZone" data-status="todo">
                 To Do
               </div>
-              <div class="inProgressDropZone">
+              <div class="inProgressDropZone" data-status="in-progress">
                 In Progress
               </div>
-              <div class="allDoneDropZone">
+              <div class="allDoneDropZone" data-status="done">
                 Completed
               </div>
             </div>
@@ -222,13 +234,13 @@
 
               <div class="timerControls">
                 <button class="startTimerBtn">
-                  <img src="Images/Start Timer Icon.png" class="startTimerBtnIcon w-4">
+                  <img src="Images/Start-Timer-Icon.png" class="startTimerBtnIcon w-4">
                 </button>
                 <button class="pauseTimerBtn">
-                  <img src="Images/Pause Timer Icon.png" class="pauseTimerBtnIcon w-4">
+                  <img src="Images/Pause-Timer-Icon.png" class="pauseTimerBtnIcon w-4">
                 </button>
                 <button class="restartTimerBtn">
-                  <img src="Images/Restart Timer Icon.png" class="restartTimerBtnIcon w-4">
+                  <img src="Images/Restart-Timer-Icon.png" class="restartTimerBtnIcon w-4">
                 </button>
               </div>
             </div>
@@ -245,17 +257,26 @@
                 <button class="addBtn2">
                   Add
                 </button>
+              </div>
+            </div>
+
+            <hr class="notesLineSplit">
+
+            <div class="noNotesYetAlert">
+              <img src="Images/No-Notes-Yet-Icon.png" class="noNotesYetIcon">
+              <h2 class="noNotesYet">No notes yet</h2>
+              <p class="tinyNotesTip">Add a note to get started.</p>
             </div>
 
             <div class="noteCreationDiv">
-              <input class="noteInput" type="text" placeholder="Write something...">
+              <textarea class="noteInput" placeholder="Write something..." minlength="1" maxlength="500"></textarea>
               <div class="noteColorOptions">
-                <button class="defaultColor"></button>
-                <button class="yellowColor"></button>
-                <button class="orangeColor"></button>
-                <button class="greenColor"></button>
-                <button class="blueColor"></button>
-                <button class="purpleColor"></button>
+                <button class="defaultColor" data-color="var(--work-areas-bg-color)"></button>
+                <button class="yellowColor" data-color="rgb(255, 213, 0)"></button>
+                <button class="orangeColor" data-color="rgb(255, 136, 0)"></button>
+                <button class="greenColor" data-color="rgb(0, 163, 111)"></button>
+                <button class="blueColor" data-color="rgb(0, 149, 255)"></button>
+                <button class="purpleColor" data-color="rgb(134, 0, 212)"></button>
               </div>
               <div class="cancelAndAddNoteButtons">
                 <button class="cancelNoteCreationBtn">Cancel</button>
@@ -263,13 +284,23 @@
               </div>
             </div>
 
+            <div class="mainNotesContent">
               <ul class="notesList">
                 <!-- Notes items will dynamically show up here -->
               </ul>
+            </div>
           </section>
 
           <section class="activity">
             <h1 class="activityName">Activity</h1>
+
+            <hr class="activityLineSplit">
+
+            <div class="mainActivityContent">
+              <ul class="activityList">
+                <!-- Activity items will dynamically show up here -->
+              </ul>
+            </div>
           </section>
         </div>
 
@@ -278,8 +309,10 @@
         </section>
       </div>
 
+      <div class="whiteboardDiv"></div>
+
     </div>
   </div>
-  <script src="hub.js" defer></script>
+  <script type="module" src="main.js"></script>
 </body>
 </html>

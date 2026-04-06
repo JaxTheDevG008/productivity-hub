@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@fullcalendar/core": "^6.1.20",
-    "@fullcalendar/daygrid": "^6.1.20"
+    "@fullcalendar/daygrid": "^6.1.20",
+    "tldraw": "^4.5.7"
   }
 }
