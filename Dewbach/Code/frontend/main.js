@@ -1,6 +1,3 @@
-import { Tldraw } from "tldraw";
-import "tldraw/tldraw.css";
-
 const overlay = document.querySelector(".overlay");
 const askForNotifications = document.querySelector(".askForNotifications");
 const enableNotificationsBtn = document.querySelector(".enableNotificationsBtn");
@@ -68,8 +65,6 @@ const cancelNoteCreationBtn = document.querySelector(".cancelNoteCreationBtn");
 const addNoteBtn = document.querySelector(".addNoteBtn");
 const activityList = document.querySelector(".activityList");
 const calendarSection = document.querySelector(".calendar");
-const whiteboardBtn = document.querySelector(".whiteboardBtn");
-const whiteboardDiv = document.querySelector(".whiteboardDiv");
 
 function safeParse(key) {
   try {
@@ -1720,17 +1715,6 @@ notesList.addEventListener("click", (e) => {
       addActivity("Deleted a note", "delete");
     }
   }
-});
-
-function initWhiteboard() {
-  if (!whiteboardDiv) return;
-
-  const root = createRoot(whiteboardDiv);
-  root.render(<TlDraw />);
-}
-
-whiteboardBtn.addEventListener("click", () => {
-  document.body.classList.toggle("isWhiteboardView");
 });
 
 function getTasksAsData() {
