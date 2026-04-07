@@ -1151,6 +1151,7 @@ input:focus {
   gap: 10px;
   border-radius: 20px;
   padding: 15px;
+  padding-right: 15px;
   width: 500px;
   background-color: oklch(98.212% 0.00011 271.152);
 }

@@ -89,7 +89,7 @@ let editingTaskId = null;
 let isEditing = false;
 
 function showOverlay() {
-  overlay.style.display = "block";
+  overlay.style.display = "block";initwhiteboard
   overlay.onclick = null;
 } 
 
@@ -905,8 +905,6 @@ document.addEventListener("DOMContentLoaded", () => {
       },
     });
     calendar.render();
-
-    initWhiteboard();
   } else {
     console.error("Calendar error");
   }
