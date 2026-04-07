@@ -89,7 +89,7 @@ let editingTaskId = null;
 let isEditing = false;
 
 function showOverlay() {
-  overlay.style.display = "block";initwhiteboard
+  overlay.style.display = "block";
   overlay.onclick = null;
 } 
 
@@ -268,7 +268,6 @@ function createTaskElement(task) {
     e.stopPropagation();
 
     const rect = taskOptionsBtn.getBoundingClientRect();
-    const taskOptions = document.querySelector(".taskOptions");
 
     taskOptions.style.position = "fixed";
     taskOptions.style.top = `${rect.bottom}px`;
@@ -327,27 +326,6 @@ function createTaskElement(task) {
       taskTimeInput.value = task.dueTime || "";
       taskStatusSelector.value = task.status || "To Do";
     }
-
-    cancelTaskCreationBtn.addEventListener("click", () => {
-      taskCreationDiv.style.display = "none";
-      taskCreationDiv.style.position = "relative";
-      taskCreationDiv.style.top = "0px";
-      taskCreationDiv.style.left = "0px";
-      taskCreationDiv.style.transform = "none";
-      taskCreationDiv.style.order = "0";
-      taskCreationDiv.style.zIndex = "0";
-
-      hideOverlay();
-      toDoList.insertBefore(taskCreationDiv, toDoListHeader.nextSibling);
-
-      taskInput.value = "";
-      taskPrioritySelector.value = "None";
-      taskDateInput.value = "";
-      taskTimeInput.value = "";
-      taskStatusSelector.value = "To Do";
-
-      console.log("Value AFTER:", taskInput.value);
-    });
   });
 
   deleteOption.addEventListener("click", () => {
@@ -362,10 +340,32 @@ function createTaskElement(task) {
     showNoTasksYet();
     refreshTaskDropdown();
     addActivity(`Deleted task: ${task.title}`, "delete");
+    taskOptions.remove();
     listTask.remove();
     taskOptions.classList.remove("show");
   });
 }
+
+cancelTaskCreationBtn.addEventListener("click", () => {
+  taskCreationDiv.style.display = "none";
+  taskCreationDiv.style.position = "relative";
+  taskCreationDiv.style.top = "0px";
+  taskCreationDiv.style.left = "0px";
+  taskCreationDiv.style.transform = "none";
+  taskCreationDiv.style.order = "0";
+  taskCreationDiv.style.zIndex = "0";
+
+  hideOverlay();
+  toDoList.insertBefore(taskCreationDiv, toDoListHeader.nextSibling);
+
+  taskInput.value = "";
+  taskPrioritySelector.value = "None";
+  taskDateInput.value = "";
+  taskTimeInput.value = "";
+  taskStatusSelector.value = "To Do";
+
+  console.log("Value AFTER:", taskInput.value);
+});
 
 function getEventColor(priority, isDark) {
   if (priority === "Low") return "#90ee90";
