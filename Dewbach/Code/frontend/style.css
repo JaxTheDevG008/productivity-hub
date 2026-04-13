@@ -1,5 +1,4 @@
-:root,
-[data-theme="light"] {
+:root {
   --bg-color: oklch(99.107% 0.00011 271.152);
   --close-noti-popup-hover-bg-color: oklch(93.403% 0.00011 271.152);
   --bd-color: oklch(89.755% 0.0001 271.152);
@@ -15,10 +14,6 @@
   --theme-btn-bg-color: oklch(20.687% 0.00986 285.48);
   --theme-btn-hover-bg-color: oklch(36.564% 0.02398 285.138);
   --task-creation-div-bg-color: oklch(96.416% 0.00011 271.152);
-  --add-task-btn-text-color: white;
-  --add-task-btn-bg-color: oklch(85.69% 0.07011 243.537);
-  --add-task-btn-hover-bg-color: oklch(75.306% 0.06089 243.311);
-  --add-task-btn-border: none;
   --cancel-task-creation-btn-bg-color: oklch(93.1% 0.00011 271.152);
   --cancel-task-creation-btn-hover-bg-color: oklch(83.127% 0.0022 14.838);
   --ask-for-noti-popup-bg-color: rgba(127, 127, 127, 0.2);
@@ -38,7 +33,143 @@
   --fc-border-color: oklch(100% 0.00011 271.152);
 }
 
-[data-theme="dark"] {
+[data-theme="ocean"] {
+  --bg-color: oklch(96% 0.02 235); 
+  --work-areas-bg-color: oklch(97% 0.015 235);
+  --task-bg-color: oklch(97% 0.015 235);
+  --task-hover-bg-color: oklch(82.317% 0.02693 239.259);
+  --input-bg: oklch(95% 0.02 235);
+  --task-creation-div-bg-color: oklch(96% 0.018 235);
+  --bd-color: oklch(86% 0.03 240);
+  --input-bd-color: oklch(88% 0.03 240);
+  --fc-border-color: oklch(88% 0.03 240);
+  --text-color: oklch(16% 0.03 255); 
+  --task-attribute-separator-color: oklch(20% 0.03 255);
+  --sidebar-bg: oklch(94% 0.02 240 / 0.7);
+  --btn-bg-color: oklch(92.923% 0.01941 235.921);
+  --btn-hover-bg-color: oklch(90% 0.03 240);
+  --theme-btn-bg-color: oklch(17% 0.04 255);
+  --theme-btn-hover-bg-color: oklch(24% 0.05 255);
+  --task-options-btn-bg-color: oklch(95% 0.02 235);
+  --task-options-btn-hover-bg-color: oklch(90% 0.03 240);
+  --close-noti-popup-hover-bg-color: oklch(90% 0.03 240);
+  --ask-for-noti-popup-bg-color: oklch(40% 0.04 250 / 0.14);
+  --focus-timer-bg-color: linear-gradient(
+    45deg,
+    oklch(92% 0.03 225), 
+    oklch(80% 0.05 235),
+    oklch(65% 0.06 245), 
+    oklch(50% 0.05 255)     
+  );
+  --fc-buttons-bg-color: oklch(95% 0.02 235 / 0.5);
+  --fc-buttons-icon-color: oklch(16% 0.03 255);
+  --fc-daygrid-day-bg-color: oklch(94% 0.02 235);
+  --fc-daygrid-day-hover-bg-color: oklch(90% 0.03 240);
+}
+
+[data-theme="forest"] {
+  --bg-color: oklch(96% 0.02 150); 
+  --work-areas-bg-color: oklch(97% 0.015 150);
+  --task-bg-color: oklch(97% 0.015 150);
+  --task-hover-bg-color: oklch(92% 0.03 155);
+  --input-bg: oklch(95% 0.02 150);
+  --task-creation-div-bg-color: oklch(96% 0.018 150);
+  --bd-color: oklch(88% 0.03 140); 
+  --input-bd-color: oklch(90% 0.03 140);
+  --fc-border-color: oklch(90% 0.03 140);
+  --text-color: oklch(18% 0.03 120); 
+  --task-attribute-separator-color: oklch(22% 0.03 120);
+  --sidebar-bg: oklch(94% 0.02 150 / 0.7); 
+  --btn-bg-color: oklch(88.636% 0.0179 148.353);
+  --btn-hover-bg-color: oklch(80.745% 0.02508 151.278);
+  --theme-btn-bg-color: oklch(20% 0.04 120); 
+  --theme-btn-hover-bg-color: oklch(28% 0.05 120);
+  --task-options-btn-bg-color: oklch(95% 0.02 150);
+  --task-options-btn-hover-bg-color: oklch(90% 0.03 150);
+  --close-noti-popup-hover-bg-color: oklch(90% 0.03 150);
+  --ask-for-noti-popup-bg-color: oklch(45% 0.04 140 / 0.14);
+  --focus-timer-bg-color: linear-gradient(
+    45deg,
+    oklch(92% 0.03 150), 
+    oklch(78% 0.05 140), 
+    oklch(60% 0.06 130),
+    oklch(45% 0.05 120)  
+  );
+  --fc-buttons-bg-color: oklch(95% 0.02 150 / 0.5);
+  --fc-buttons-icon-color: oklch(18% 0.03 120);
+  --fc-daygrid-day-bg-color: oklch(94% 0.02 150);
+  --fc-daygrid-day-hover-bg-color: oklch(90% 0.03 150);
+}
+
+[data-theme="sunset"] {
+  --bg-color: oklch(96% 0.03 70);
+  --work-areas-bg-color: oklch(97% 0.025 75);
+  --task-bg-color: oklch(97% 0.025 75);
+  --task-hover-bg-color: oklch(92% 0.04 60);
+  --input-bg: oklch(95% 0.03 75);
+  --task-creation-div-bg-color: oklch(96% 0.025 75);
+  --bd-color: oklch(88% 0.04 55);
+  --input-bd-color: oklch(90% 0.04 55);
+  --fc-border-color: oklch(90% 0.04 55);
+  --text-color: oklch(20% 0.04 35); 
+  --task-attribute-separator-color: oklch(25% 0.04 35);
+  --sidebar-bg: oklch(94% 0.03 70 / 0.7);
+  --btn-bg-color: oklch(90.396% 0.02852 74.234);
+  --btn-hover-bg-color: oklch(83.587% 0.03509 64.416);
+  --theme-btn-bg-color: oklch(25% 0.05 30);
+  --theme-btn-hover-bg-color: oklch(32% 0.06 30);
+  --task-options-btn-bg-color: oklch(95% 0.03 75);
+  --task-options-btn-hover-bg-color: oklch(90% 0.04 65);
+  --close-noti-popup-hover-bg-color: oklch(90% 0.04 60);
+  --ask-for-noti-popup-bg-color: oklch(55% 0.05 50 / 0.15);
+  --focus-timer-bg-color: linear-gradient(
+    45deg,
+    oklch(92% 0.04 80), 
+    oklch(80% 0.06 60),  
+    oklch(65% 0.07 45), 
+    oklch(50% 0.06 35) 
+  );
+  --fc-buttons-bg-color: oklch(95% 0.03 75 / 0.5);
+  --fc-buttons-icon-color: oklch(20% 0.04 35);
+  --fc-daygrid-day-bg-color: oklch(94% 0.03 75);
+  --fc-daygrid-day-hover-bg-color: oklch(90% 0.04 65);
+}
+
+[data-theme="rose"] {
+  --bg-color: oklch(96% 0.03 5); 
+  --work-areas-bg-color: oklch(97% 0.025 10);
+  --task-bg-color: oklch(97% 0.025 10);
+  --task-hover-bg-color: oklch(92% 0.04 350);
+  --input-bg: oklch(95% 0.03 10);
+  --task-creation-div-bg-color: oklch(96% 0.025 10);
+  --bd-color: oklch(88% 0.04 355); 
+  --input-bd-color: oklch(90% 0.04 355);
+  --fc-border-color: oklch(90% 0.04 355);
+  --text-color: oklch(18% 0.03 20); 
+  --task-attribute-separator-color: oklch(22% 0.03 20);
+  --sidebar-bg: oklch(94% 0.03 10 / 0.7);
+  --btn-bg-color: oklch(91.185% 0.02679 8.813);
+  --btn-hover-bg-color: oklch(84.018% 0.03805 349.808);
+  --theme-btn-bg-color: oklch(22% 0.05 20);
+  --theme-btn-hover-bg-color: oklch(30% 0.06 20);
+  --task-options-btn-bg-color: oklch(95% 0.03 10);
+  --task-options-btn-hover-bg-color: oklch(90% 0.04 350);
+  --close-noti-popup-hover-bg-color: oklch(90% 0.04 350);
+  --ask-for-noti-popup-bg-color: oklch(55% 0.05 350 / 0.15);
+  --focus-timer-bg-color: linear-gradient(
+    45deg,
+    oklch(92% 0.03 10),  
+    oklch(80% 0.05 5),  
+    oklch(65% 0.06 355), 
+    oklch(50% 0.05 350) 
+  );
+  --fc-buttons-bg-color: oklch(95% 0.03 10 / 0.5);
+  --fc-buttons-icon-color: oklch(18% 0.03 20);
+  --fc-daygrid-day-bg-color: oklch(94% 0.03 10);
+  --fc-daygrid-day-hover-bg-color: oklch(90% 0.04 350);
+}
+
+[data-mode="dark"] {
   --bg-color: oklch(14.077% 0.0044 285.776);
   --close-noti-popup-hover-bg-color: oklch(11.779% 0.05035 260.832);
   --bd-color: oklch(33.289% 0.00004 271.152);
@@ -54,10 +185,6 @@
   --theme-btn-bg-color: oklch(93.1% 0.00011 271.152);
   --theme-btn-hover-bg-color: oklch(77.311% 0.00009 271.152);
   --task-creation-div-bg-color: oklch(17.24% 0.0326 258.33);
-  --add-task-btn-text-color: oklch(58.962% 0.20549 268.631);
-  --add-task-btn-bg-color: oklch(74.813% 0.14896 230.353);
-  --add-task-btn-hover-bg-color: oklch(65.194% 0.12939 230.07);
-  --add-task-btn-border: 1px solid oklch(58.962% 0.20549 268.631);
   --cancel-task-creation-btn-bg-color: oklch(20% 0.05 260);
   --cancel-task-creation-btn-hover-bg-color: oklch(27.167% 0.07952 260.626);
   --ask-for-noti-popup-bg-color: rgba(31, 31, 31, 0.2);
@@ -75,6 +202,138 @@
   --fc-daygrid-day-bg-color: oklch(20.687% 0.00986 285.48);
   --fc-daygrid-day-hover-bg-color: oklch(24.235% 0.01328 285.346);
   --fc-border-color: oklch(11.779% 0.05035 260.832);
+}
+
+[data-theme="ocean"][data-mode="dark"] {
+  --bg-color: oklch(14% 0.03 250);
+  --work-areas-bg-color: oklch(18% 0.03 245);
+  --task-bg-color: oklch(18% 0.03 245);
+  --task-hover-bg-color: oklch(24% 0.04 240);
+  --input-bg: oklch(22% 0.03 245);
+  --task-creation-div-bg-color: oklch(19% 0.03 245);
+  --bd-color: oklch(30% 0.03 240);
+  --input-bd-color: oklch(28% 0.03 240);
+  --fc-border-color: oklch(28% 0.03 240);
+  --text-color: oklch(92% 0.01 250);
+  --task-attribute-separator-color: oklch(85% 0.01 250);
+  --sidebar-bg: oklch(20% 0.03 245 / 0.6);
+  --btn-bg-color: oklch(24.907% 0.03669 246.56);
+  --btn-hover-bg-color: oklch(32.375% 0.05444 241.278);
+  --theme-btn-bg-color: oklch(90% 0.01 250);
+  --theme-btn-hover-bg-color: oklch(75% 0.01 250);
+  --task-options-btn-bg-color: oklch(22% 0.03 245);
+  --task-options-btn-hover-bg-color: oklch(26% 0.04 240);
+  --close-noti-popup-hover-bg-color: oklch(24% 0.04 240);
+  --ask-for-noti-popup-bg-color: oklch(20% 0.03 250 / 0.3);
+  --focus-timer-bg-color: linear-gradient(
+    45deg,
+    oklch(30% 0.04 240),
+    oklch(24% 0.05 245),
+    oklch(18% 0.05 255)
+  );
+  --fc-buttons-bg-color: oklch(22% 0.03 245 / 0.5);
+  --fc-buttons-icon-color: oklch(92% 0.01 250);
+  --fc-daygrid-day-bg-color: oklch(20% 0.03 245);
+  --fc-daygrid-day-hover-bg-color: oklch(24% 0.04 240);
+}
+
+[data-theme="forest"][data-mode="dark"] {
+  --bg-color: oklch(14% 0.03 145);
+  --work-areas-bg-color: oklch(18% 0.03 145);
+  --task-bg-color: oklch(18% 0.03 145);
+  --task-hover-bg-color: oklch(24% 0.04 135);
+  --input-bg: oklch(22% 0.03 145);
+  --task-creation-div-bg-color: oklch(19% 0.03 145);
+  --bd-color: oklch(30% 0.03 130);
+  --input-bd-color: oklch(28% 0.03 130);
+  --fc-border-color: oklch(28% 0.03 130);
+  --text-color: oklch(92% 0.01 120);
+  --task-attribute-separator-color: oklch(85% 0.01 115);
+  --sidebar-bg: oklch(20% 0.03 145 / 0.6);
+  --btn-bg-color: oklch(26.534% 0.03637 144.504);
+  --btn-hover-bg-color: oklch(33.927% 0.05737 140.226);
+  --theme-btn-bg-color: oklch(88% 0.01 120);
+  --theme-btn-hover-bg-color: oklch(75% 0.01 120);
+  --task-options-btn-bg-color: oklch(22% 0.03 145);
+  --task-options-btn-hover-bg-color: oklch(26% 0.04 140);
+  --close-noti-popup-hover-bg-color: oklch(24% 0.04 140);
+  --ask-for-noti-popup-bg-color: oklch(20% 0.03 140 / 0.25);
+  --focus-timer-bg-color: linear-gradient(
+    45deg,
+    oklch(28% 0.04 145),
+    oklch(24% 0.05 140),
+    oklch(18% 0.05 135)
+  );
+  --fc-buttons-bg-color: oklch(22% 0.03 145 / 0.5);
+  --fc-buttons-icon-color: oklch(92% 0.01 120);
+  --fc-daygrid-day-bg-color: oklch(20% 0.03 145);
+  --fc-daygrid-day-hover-bg-color: oklch(24% 0.04 140);
+}
+
+[data-theme="sunset"][data-mode="dark"] {
+  --bg-color: oklch(14% 0.03 40);
+  --work-areas-bg-color: oklch(18% 0.03 45);
+  --task-bg-color: oklch(18% 0.03 45);
+  --task-hover-bg-color: oklch(24% 0.04 55);
+  --input-bg: oklch(22% 0.03 50);
+  --task-creation-div-bg-color: oklch(19% 0.03 50);
+  --bd-color: oklch(30% 0.04 55);
+  --input-bd-color: oklch(28% 0.04 55);
+  --fc-border-color: oklch(28% 0.04 55);
+  --text-color: oklch(92% 0.01 35);
+  --task-attribute-separator-color: oklch(85% 0.01 30);
+  --sidebar-bg: oklch(20% 0.03 50 / 0.65);
+  --btn-bg-color: oklch(25.531% 0.03842 48.073);
+  --btn-hover-bg-color: oklch(33.681% 0.0557 55.738);
+  --theme-btn-bg-color: oklch(90% 0.01 40);
+  --theme-btn-hover-bg-color: oklch(75% 0.01 40);
+  --task-options-btn-bg-color: oklch(22% 0.03 50);
+  --task-options-btn-hover-bg-color: oklch(26% 0.04 55);
+  --close-noti-popup-hover-bg-color: oklch(24% 0.04 55);
+  --ask-for-noti-popup-bg-color: oklch(20% 0.03 45 / 0.25);
+  --focus-timer-bg-color: linear-gradient(
+    45deg,
+    oklch(28% 0.04 35),
+    oklch(24% 0.05 40),
+    oklch(18% 0.05 50)
+  );
+  --fc-buttons-bg-color: oklch(22% 0.03 50 / 0.5);
+  --fc-buttons-icon-color: oklch(92% 0.01 35);
+  --fc-daygrid-day-bg-color: oklch(20% 0.03 50);
+  --fc-daygrid-day-hover-bg-color: oklch(24% 0.04 55);
+}
+
+[data-theme="rose"][data-mode="dark"] {
+  --bg-color: oklch(14% 0.03 355);
+  --work-areas-bg-color: oklch(18% 0.03 350);
+  --task-bg-color: oklch(18% 0.03 350);
+  --task-hover-bg-color: oklch(22% 0.04 345);
+  --input-bg: oklch(20% 0.03 350);
+  --task-creation-div-bg-color: oklch(19% 0.03 350);
+  --bd-color: oklch(30% 0.04 355);
+  --input-bd-color: oklch(28% 0.04 355);
+  --fc-border-color: oklch(28% 0.04 355);
+  --text-color: oklch(92% 0.01 20);
+  --task-attribute-separator-color: oklch(85% 0.01 20);
+  --sidebar-bg: oklch(20% 0.03 350 / 0.6);
+  --btn-bg-color: oklch(26.9% 0.03915 352.375);
+  --btn-hover-bg-color: oklch(33.742% 0.05563 346.571);
+  --theme-btn-bg-color: oklch(90% 0.01 20);
+  --theme-btn-hover-bg-color: oklch(75% 0.01 20);
+  --task-options-btn-bg-color: oklch(22% 0.03 350);
+  --task-options-btn-hover-bg-color: oklch(26% 0.04 345);
+  --close-noti-popup-hover-bg-color: oklch(24% 0.04 345);
+  --ask-for-noti-popup-bg-color: oklch(20% 0.03 350 / 0.25);
+  --focus-timer-bg-color: linear-gradient(
+    45deg,
+    oklch(30% 0.04 355),
+    oklch(24% 0.05 350),
+    oklch(18% 0.05 345)
+  );
+  --fc-buttons-bg-color: oklch(22% 0.03 350 / 0.5);
+  --fc-buttons-icon-color: oklch(92% 0.01 20);
+  --fc-daygrid-day-bg-color: oklch(20% 0.03 350);
+  --fc-daygrid-day-hover-bg-color: oklch(24% 0.04 345);
 }
 
 body {
@@ -254,7 +513,7 @@ button:hover {
   margin: 15px 0;
 }
 
-[data-theme="dark"] .sidebarHeaderSplit {
+[data-mode="dark"] .sidebarHeaderSplit {
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
@@ -288,7 +547,7 @@ button:hover {
   transition: 0.2s ease;
 }
 
-[data-theme="dark"] .sidebar img {
+[data-mode="dark"] .sidebar img {
   filter: brightness(0) invert(1);
   opacity: 0.7;
   transition: 0.2s ease;
@@ -320,7 +579,7 @@ button:hover {
   filter: brightness(0);
 }
 
-[data-theme="dark"] .hamburgerIcon {
+[data-mode="dark"] .hamburgerIcon {
   filter: brightness(0) invert(1);
   opacity: 0.7;
   transition: 0.2s ease;
@@ -444,7 +703,7 @@ body.calendarView .notes {
   z-index: 1001;
 }
 
-[data-theme="dark"] .searchDiv.scrolled .searchBarIcon {
+[data-mode="dark"] .searchDiv.scrolled .searchBarIcon {
   filter: brightness(0) invert(1);
   opacity: 0.7;
   transition: 0.2s ease;
@@ -461,7 +720,7 @@ body.calendarView .notes {
   transition: 0.2s ease;
 }
 
-[data-theme="dark"] .searchBarIcon {
+[data-mode="dark"] .searchBarIcon {
   filter: brightness(0) invert(1);
   opacity: 0.7;
   transition: 0.2s ease;
@@ -510,7 +769,7 @@ body.calendarView .notes {
   color: var(--text-color);
 }
 
-[data-theme="dark"] .matchHighlight {
+[data-mode="dark"] .matchHighlight {
   background-color: oklch(31.654% 0.01649 222.028);
   color: var(--text-color);
 }
@@ -589,7 +848,7 @@ body.calendarView .notes {
   cursor: pointer;
 }
 
-[data-theme="dark"] .agentBtn:hover {
+[data-mode="dark"] .agentBtn:hover {
   background-color: oklch(28.765% 0.05456 225.113);
   cursor: pointer;
 }
@@ -609,7 +868,7 @@ body.calendarView .notes {
   transition: 0.2s ease;
 }
 
-[data-theme="dark"] .agentIcon {
+[data-mode="dark"] .agentIcon {
   filter: brightness(0) invert(1);
   opacity: 0.7;
   transition: 0.2s ease;
@@ -718,7 +977,7 @@ body.calendarView .notes {
   filter: brightness(0);
 }
 
-[data-theme="dark"] .decrastinatorIcon {
+[data-mode="dark"] .decrastinatorIcon {
   filter: brightness(0) invert(1);
   opacity: 0.7;
   transition: 0.2s ease;
@@ -804,6 +1063,19 @@ body.calendarView .notes {
   padding: 20px 40px;
   border-radius: 20px;
   color: var(--text-color);
+}
+
+.customThemeSelector {
+  background-color: var(--btn-bg-color);
+  border: 1px solid var(--bd-color);
+  border-radius: 12px;
+  padding: 12px 15px;
+  color: var(--text-color);
+}
+
+.customThemeSelector:hover {
+  background-color: var(--btn-hover-bg-color);
+  cursor: pointer;
 }
 
 .miniAnalytics {
@@ -1010,13 +1282,18 @@ body.isKanbanView .toDoList {
   height: 35px;
 }
 
+.listAndKanbanToggle:hover {
+  background-color: var(--btn-hover-bg-color);
+  cursor: pointer;
+}
+
 .KanbanBoardIcon {
   width: 18px;
   height: 18px;
   filter: brightness(0);
 }
 
-[data-theme="dark"] .KanbanBoardIcon {
+[data-mode="dark"] .KanbanBoardIcon {
   filter: brightness(0) invert(1);
   opacity: 0.7;
   transition: 0.2s ease;
@@ -1040,7 +1317,7 @@ body.isKanbanView .toDoList {
   border: 1px solid oklch(85.452% 0.0001 271.152);
 }
 
-[data-theme="dark"] .toDoDropZone {
+[data-mode="dark"] .toDoDropZone {
   background-color: oklch(22.728% 0.00385 285.998);
 }
 
@@ -1053,7 +1330,7 @@ body.isKanbanView .toDoList {
   border: 1px solid oklch(86.49% 0.01415 258.444);
 }
 
-[data-theme="dark"] .inProgressDropZone {
+[data-mode="dark"] .inProgressDropZone {
   background-color: oklch(24.547% 0.00588 236.946);
 }
 
@@ -1066,7 +1343,7 @@ body.isKanbanView .toDoList {
   border: 1px solid oklch(88.73% 0.01864 166.623);
 }
 
-[data-theme="dark"] .allDoneDropZone {
+[data-mode="dark"] .allDoneDropZone {
   background-color: oklch(23.25% 0.00354 165.147);
 }
 
@@ -1118,7 +1395,7 @@ body.isKanbanView .toDoList {
   transition: 0.2s ease;
 }
 
-[data-theme="dark"] .themeIcon {
+[data-mode="dark"] .themeIcon {
   filter: brightness(0);
 }
 
@@ -1171,7 +1448,7 @@ input:focus {
   background-color: oklch(98.212% 0.00011 271.152);
 }
 
-[data-theme="dark"] .taskCreationDiv {
+[data-mode="dark"] .taskCreationDiv {
   background-color: oklch(22.728% 0.00385 285.998);
 }
 
@@ -1294,7 +1571,7 @@ input:focus {
   filter: brightness(0);
 }
 
-[data-theme="dark"] .addTaskBtnIcon {
+[data-mode="dark"] .addTaskBtnIcon {
   filter: brightness(0) invert(1);
   opacity: 0.7;
   transition: 0.2s ease;
@@ -1545,7 +1822,7 @@ input[type="checkbox"]:checked::before {
   transition: 0.2s ease;
 }
 
-[data-theme="dark"] .taskOptionsBtnIcon {
+[data-mode="dark"] .taskOptionsBtnIcon {
   filter: brightness(0) invert(1);
   opacity: 0.7;
   transition: 0.2s ease;
@@ -1649,13 +1926,18 @@ body.isKanbanView .focusTimer {
 
 .timerProgressRing {
   fill: none;
-  stroke: #fff;
+  stroke: white;
   stroke-width: 5;
   stroke-dasharray: 283;
   stroke-dashoffset: 0;
   transition: stroke-dashoffset 1s linear;
   transform: rotate(-90deg);
   transform-origin: center;
+  filter: drop-shadow(0 0 2px #82919e);
+}
+
+[data-mode="dark"] .timerProgressRing {
+  filter: drop-shadow(0 0 2px #284e6e);
 }
 
 .currentFoocusedTaskDiv {
@@ -1931,7 +2213,7 @@ body.isKanbanView .focusTimer {
   border: 2px solid var(--bd-color);
 }
 
-[data-theme="dark"] .noteCreationDiv {
+[data-mode="dark"] .noteCreationDiv {
   background-color: oklch(22.728% 0.00385 285.998);
 }
 
@@ -2285,7 +2567,7 @@ body.isKanbanView .focusTimer {
   transition: 0.2s ease;
 }
 
-[data-theme="dark"].activityIcon--note {
+[data-mode="dark"].activityIcon--note {
   filter: invert(88%) sepia(85%) saturate(3015%) hue-rotate(345deg) brightness(101%) contrast(101%);
   opacity: 0.7;
   transition: 0.2s ease;
