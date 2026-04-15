@@ -4,6 +4,7 @@
     <meta charset="UTF-8"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/main.min.css">
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Dewbach</title>
     <link rel="stylesheet" href="style.css"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -62,7 +63,7 @@
   </nav>
 
   <!-- Main Content -->
-  <div class="mainContent">
+  <div class="dashboardContent">
 
     <div class="header">
       <div class="commandCenter">
@@ -145,10 +146,11 @@
           <div class="toDoListHeader">
             <h1 class="toDoListName">Tasks</h1>
             <div class="options">
-              <button class="listAndKanbanToggle">
-                <img src="Images/Kanban-Board-Icon.png" class="KanbanBoardIcon">
-                Kanban
-              </button>
+              <select class="taskViewSelector">
+                <option value="listView">List View</option>
+                <option value="KanbanView">Kanban Board</option>
+                <option value="timelineView">Timeline View</option>
+              </select>
               <button class="addBtn">
                 Add
               </button>
@@ -315,6 +317,40 @@
         <section class="calendar">
           <div id="calendar"></div>
         </section>
+      </div>
+    </div>
+  </div>
+
+  <div class="analyticsContent">
+    <div class="analyticsHeader">
+      <h1 class="analyticsName">Analytics</h1>
+    </div>
+    
+    <hr class="analyticsHeaderSplit">
+
+    <div class="analyticsMainContent">
+      <div class="charts">
+        <div class="chartSection1">
+          <div class="weeklyTaskChart">
+            <canvas id="weeklyTaskChart"></canvas>
+          </div>
+          <div class="priorityCompletionChart">
+            <canvas id="priorityCompletionChart"></canvas>
+          </div>
+        </div>
+        <div class="chartSection2">
+          <div class="productivityScoreChart">
+            <canvas id="productivityScoreChart"></canvas>
+            <div class="productivityScoreChartText"></div>
+            <div class="productivityScoreChartTooltip">
+              <div class="analyticsInsights"></div>
+            </div>
+          </div>
+          <div class="timeOfDayChart">
+            <canvas id="timeOfDayChart"></canvas>
+            <div class="peakProductivityHoursReminder"></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -4,13 +4,15 @@ const enableNotificationsBtn = document.querySelector(".enableNotificationsBtn")
 const closeNotiPopup = document.querySelector(".closeNotiPopup");
 const sidebar = document.querySelector(".sidebar");
 const hamburgerBtn = document.querySelector(".hamburgerBtn");
+const analyticsBtn = document.querySelector(".analyticsBtn");
 const closeSidebarBtn = document.querySelector(".closeSidebarBtn");
+const header = document.querySelector(".header");
 const searchDiv = document.querySelector(".searchDiv");
 const searchBar = document.querySelector(".searchBar");
 const searchResultsMenu = document.querySelector(".searchResultsMenu");
 const dashboardBtn = document.querySelector(".dashboardBtn");
 const calendarBtn = document.querySelector(".calendarBtn");
-const mainContent = document.querySelector(".mainContent");
+const dashboardContent = document.querySelector(".dashboardContent");
 const commandCenter = document.querySelector(".commandCenter");
 const agentBtn = document.querySelector(".agentBtn");
 const decrastinatorBtn = document.querySelector(".decrastinatorBtn");
@@ -23,7 +25,7 @@ const section1 = document.querySelector(".section1");
 const section2 = document.querySelector(".section2");
 const toDoList = document.querySelector(".toDoList");
 const toDoListHeader = document.querySelector(".toDoListHeader");
-const listAndKanbanToggle = document.querySelector(".listAndKanbanToggle");
+const taskViewSelector = document.querySelector(".taskViewSelector");
 const addBtn = document.querySelector(".addBtn");
 const taskCreationDiv = document.querySelector(".taskCreationDiv");
 const actualTaskCreation = document.querySelector(".actualTaskCreation");
@@ -66,6 +68,8 @@ const cancelNoteCreationBtn = document.querySelector(".cancelNoteCreationBtn");
 const addNoteBtn = document.querySelector(".addNoteBtn");
 const activityList = document.querySelector(".activityList");
 const calendarSection = document.querySelector(".calendar");
+const analyticsContent = document.querySelector(".analyticsContent");
+const analyticsMainContent = document.querySelector(".analyticsMainContent");
 
 function safeParse(key) {
   try {
@@ -88,6 +92,10 @@ let activityLog = getActivityLog();
 let calendar;
 let editingTaskId = null;
 let isEditing = false;
+let weeklyTaskChart = null;
+let priorityCompletionChart = null;
+let productivityScoreChart = null;
+let timeOfDayChart = null;
 
 function showOverlay() {
   overlay.style.display = "block";
@@ -241,11 +249,18 @@ function createTaskElement(task) {
 
     t.completed = checkbox.checked;
 
+    if (t.completed) {
+      t.completedAt = Date.now();
+    } else {
+      t.completedAt = null;
+    }
+
     listTask.classList.toggle("completed", t.completed);
 
     saveTasks();
     addActivity(`Completed task: ${task.title}`, "task");
     updateTasksDoneCount();
+    refreshCharts();
   });
 
   taskTextAndCheckbox.appendChild(taskTextSpan);
@@ -340,6 +355,7 @@ function createTaskElement(task) {
     updateTasksDoneCount();
     showNoTasksYet();
     refreshTaskDropdown();
+    refreshCharts();
     addActivity(`Deleted task: ${task.title}`, "delete");
     taskOptions.remove();
     listTask.remove();
@@ -801,16 +817,16 @@ function responsiveWebsite() {
     sidebar.style.display = "none";
     section1.style.flexDirection = "column";
     section2.style.flexDirection = "column";
-    mainContent.style.alignItems = "center";
-    mainContent.style.marginLeft = "0px";
+    dashboardContent.style.alignItems = "center";
+    dashboardContent.style.marginLeft = "0px";
   } else {
     console.log("Desktop");
     hamburgerBtn.style.display = "none";
     sidebar.style.display = "flex";
     section1.style.flexDirection = "row";
     section2.style.flexDirection = "row";
-    mainContent.style.alignItems = "flex-start";
-    mainContent.style.marginLeft = "300px";
+    dashboardContent.style.alignItems = "flex-start";
+    dashboardContent.style.marginLeft = "300px";
   }
 }
 
@@ -981,14 +997,24 @@ function saveEditedTask() {
   isEditing = false;
   taskCreationDiv.style.display = "none";
   hideOverlay();
+  refreshCharts();
 }
 
-/* dashboardBtn.addEventListener("click", () => {
-  document.body.classList.add("dashboardActive");
-}) */
+dashboardBtn.addEventListener("click", () => {
+  document.documentElement.classList.add("dashboardActive");
+  document.documentElement.classList.remove("isAnalyticsView");
+  
+  const miniAnalytics = document.querySelector(".miniAnalytics");
+  
+  if (miniAnalytics && header) {
+    if (miniAnalytics.parentElement !== header) {
+      header.appendChild(miniAnalytics);
+    }
+  }
+})
 
 calendarBtn.addEventListener("click", () => {
-  document.body.classList.toggle("calendarView");
+  document.documentElement.classList.toggle("calendarView");
 });
 
 const now = new Date();
@@ -1229,30 +1255,43 @@ function normalizeTaskStatus(status) {
   return normalized;
 }
 
-listAndKanbanToggle.addEventListener("click", () => {
-  isDraggable = !isDraggable;
+taskViewSelector.addEventListener("click", () => {
+  const taskViewOption = taskViewSelector.value;
 
-  const allTasks = document.querySelectorAll(".mainTask");
-  allTasks.forEach((task) => {
-    task.draggable = isDraggable;
+  if (taskViewOption === "KanbanView") {
+    isDraggable = !isDraggable;
 
-    task.style.cursor = isDraggable ? "grab" : "default";
+    const allTasks = document.querySelectorAll(".mainTask");
+    allTasks.forEach((task) => {
+      task.draggable = isDraggable;
 
-    if (task.dataset.status === "done") {
-      allDoneDropZone.appendChild(task);
-    } else if (task.dataset.status === "in-progress") {
-      inProgressDropZone.appendChild(task);
-    } else {
-      toDoDropZone.appendChild(task);
-    }
-  });
+      task.style.cursor = isDraggable ? "grab" : "default";
 
-  taskList.classList.toggle("drag-mode", isDraggable);
-  document.body.classList.toggle("isKanbanView");
+      if (task.dataset.status === "done") {
+        allDoneDropZone.appendChild(task);
+      } else if (task.dataset.status === "in-progress") {
+        inProgressDropZone.appendChild(task);
+      } else {
+        toDoDropZone.appendChild(task);
+      }
+    });
 
-  dropZones.style.display = isDraggable ? "flex" : "none";
+    taskList.classList.toggle("drag-mode", isDraggable);
+    document.documentElement.classList.toggle("isKanbanView");
 
-  noTasksYetAlert.style.display = "none";
+    dropZones.style.display = isDraggable ? "flex" : "none";
+
+    noTasksYetAlert.style.display = "none";
+  } else {
+    document.documentElement.classList.remove("isKanbanView");
+    dropZones.style.display = "none";
+    isDraggable = false;
+    taskList.classList.remove("drag-mode");
+
+    taskList.innerHTML = "";
+    tasks.forEach((task) => createTaskElement(task));
+    showNoTasksYet();
+  }
 });
 
 let currentDraggedTask = null;
@@ -1313,6 +1352,7 @@ addTaskBtn.addEventListener("click", () => {
     saveEditedTask();
   } else {
     addTask();
+    refreshCharts();
   }
   showNoTasksYet();
 });
@@ -1750,6 +1790,416 @@ notesList.addEventListener("click", (e) => {
       addActivity("Deleted a note", "delete");
     }
   }
+});
+
+function getStartOfWeek() {
+  const now = new Date();
+  const day = now.getDay();
+
+  const start = new Date(now)
+  start.setDate(now.getDate() - day);
+  start.setHours(0, 0, 0, 0);
+  return start;
+}
+
+function getWeeklyCompletionData() {
+  const days = [0, 0, 0, 0, 0, 0, 0];
+  const startOfWeek = getStartOfWeek();
+
+  tasks.forEach(task => {
+    if (!task.completed || !task.completedAt) return;
+    const date = new Date(task.completedAt);
+    if (date < startOfWeek) return;
+    const day = date.getDay();
+    days[day] += 1;
+  });
+
+  return days;
+}
+
+function getHourlyCompletionData() {
+  const hours = new Array(24).fill(0);
+
+  tasks.forEach(task => {
+    if (!task.completed || !task.completedAt) return;
+    const date = new Date(task.completedAt);
+    const hour = date.getHours();
+    hours[hour] += 1;
+  });
+
+  return hours;
+}
+
+function showPeakProductivityHours() {
+  const peakProductivityHoursReminder = document.querySelector(".peakProductivityHoursReminder");
+
+  if (!peakProductivityHoursReminder) return;
+
+  const hours = new Array(24).fill(0);
+
+  tasks.forEach(task => {
+    if (!task.completed || !task.completedAt) return;
+    const hour = new Date(task.completedAt).getHours();
+    hours[hour] += 1;
+  });
+
+  const max = Math.max(...hours);
+  if (max === 0) {
+    peakProductivityHoursReminder.textContent = "";
+    return;
+  }
+
+  const peakHours = hours
+    .map((v, i) => (v === max ? i : null))
+    .filter(v => v !== null);
+
+  const format = (h) => {
+    const suffix = h >= 12 ? "PM" : "AM";
+    return `${h % 12 || 12}${suffix}`;
+  };
+
+  peakProductivityHoursReminder.textContent =
+    peakHours.length === 1
+      ? `Peak productivity: ${format(peakHours[0])}`
+      : `Peak productivity: ${format(peakHours[0])}–${format(peakHours.at(-1))}`;
+}
+
+function getPriorityCompletionData() {
+  const priorities = ["Low", "Medium", "High"];
+
+  const completed = [0, 0, 0];
+  const notCompleted = [0, 0, 0];
+
+  tasks.forEach(task => {
+    const index = priorities.indexOf(task.priority);
+    if (index === -1) return;
+
+    if (task.completed) {
+      completed[index] += 1;
+    } else {
+      notCompleted[index] += 1;
+    }
+  });
+  return { priorities, completed, notCompleted };
+}
+
+function getProductivityScore() {
+  let totalWeight = 0;
+  let earnedWeight = 0;
+
+  tasks.forEach(task => {
+    const weight =
+      task.priority === "High" ? 3 :
+      task.priority === "Medium" ? 2 : 1;
+    
+    totalWeight += weight;
+
+    if (task.completed) {
+      earnedWeight += weight;
+    }
+  });
+
+  if (totalWeight === 0) return 0;
+  return Math.round((earnedWeight / totalWeight) * 100);
+}
+
+function renderWeeklyTasksChart() {
+  const actualWeeklyTaskChart = document.getElementById("weeklyTaskChart");
+
+  if (weeklyTaskChart) {
+    weeklyTaskChart.destroy();
+  }
+
+  weeklyTaskChart = new Chart(actualWeeklyTaskChart, {
+    type: 'line',
+    data: {
+      labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday ', 'Friday', 'Saturday'], 
+      datasets: [{
+        label: 'Tasks Completed',
+        data: getWeeklyCompletionData(),
+        borderColor: 'oklch(75.306% 0.06089 243.311)', 
+        backgroundColor: 'rgba(75, 192, 192, 0.2)', 
+        fill: true, 
+        pointRadius: 6,
+        pointHoverRadius: 8,
+        tension: 0.3 
+      }]
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Weekly Task Completion'
+        }
+      },
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            precision: 0
+          }
+        }
+      }
+    }
+  });
+}
+
+function renderPriorityCompletionChart() {
+  const actualPriorityCompletionChart = document.getElementById("priorityCompletionChart");
+  const { priorities, completed, notCompleted } = getPriorityCompletionData();
+
+  if (priorityCompletionChart) {
+    priorityCompletionChart.destroy();
+  }
+
+  priorityCompletionChart = new Chart(actualPriorityCompletionChart, {
+    type: 'bar',
+    data: {
+      labels: priorities,
+      datasets: [
+        {
+          label: 'Completed',
+          data: completed,
+          backgroundColor: 'oklch(62.797% 0.11316 167.052)',
+          borderRadius: 6
+        },
+        {
+          label: 'Not Completed',
+          data: notCompleted,
+          backgroundColor: 'rgb(255, 107, 107)',
+          borderRadius: 6
+        }
+      ]
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Prioritized Task Completion'
+        }
+      },
+      responsive: true,
+      scales: {
+        x: {
+          stacked: true
+        },
+        y: {
+          stacked: true,
+          beginAtZero: true,
+          ticks: {
+            precision: 0
+          }
+        }
+      }
+    }
+  });
+}
+
+let previousScore = 0;
+
+function renderProductivityScoreChart() {
+  const actualProductivityScoreChart = document.getElementById("productivityScoreChart");
+  const productivityScoreChartDiv = document.querySelector(".productivityScoreChart");
+
+  if (!actualProductivityScoreChart || !productivityScoreChartDiv) return;
+
+  const productivityScore = getProductivityScore();
+
+  productivityScoreChartDiv.classList.remove("score-up", "score-down");
+  if (productivityScore > previousScore) {
+    productivityScoreChartDiv.classList.add("score-up");
+  } else if (productivityScore < previousScore) {
+    productivityScoreChartDiv.classList.add("score-down");
+  }
+  
+  if (productivityScoreChart) {
+    productivityScoreChart.destroy();
+  }
+
+  productivityScoreChart = new Chart(actualProductivityScoreChart, {
+    type: 'doughnut',
+    data: {
+      datasets: [{
+        data: [productivityScore, 100 - productivityScore],
+        backgroundColor: [
+          productivityScore >= 75
+            ? '#22c55e'
+            : productivityScore >= 50
+            ? '#facc15'
+            : '#ff6b6b',
+          isDark() ? 'rgba(196, 196, 196, 0.08)' : 'rgba(0, 0, 0, 0.08)'
+        ],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      cutout: '75%',
+      responsive: true,
+      animation: {
+        duration: 800,
+        easing: 'easeOutCubic'
+      },
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          enabled: false
+        },
+        title: {
+          display: true,
+          text: 'Productivity Score'
+        }
+      }
+    }
+  });
+  productivityScoreChart.data.datasets[0].data = [productivityScore, 100 - productivityScore];
+  productivityScoreChart.update();
+
+  const productivityScoreChartText = document.querySelector(".productivityScoreChartText");
+  if (!productivityScoreChartText) return;
+  productivityScoreChartText.textContent = `${productivityScore}%`;
+}
+
+function renderTimeOfDayChart() {
+  const actualTimeOfDayChart = document.getElementById("timeOfDayChart");
+
+  if (timeOfDayChart) {
+    timeOfDayChart.destroy();
+  }
+
+  timeOfDayChart = new Chart(actualTimeOfDayChart, {
+    type: 'bar',
+    data: {
+      labels: [
+        '12a','1a','2a','3a','4a','5a',
+        '6a','7a','8a','9a','10a','11a',
+        '12p','1p','2p','3p','4p','5p',
+        '6p','7p','8p','9p','10p','11p'
+      ],
+      datasets: [{
+        label: 'Tasks Completed per Hour',
+        data: getHourlyCompletionData(),
+      }]
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Hourly Task Completion'
+        }
+      },
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            precision: 0
+          }
+        }
+      }
+    }
+  });
+}
+
+function refreshCharts() {
+  renderWeeklyTasksChart();
+  renderPriorityCompletionChart();
+  renderProductivityScoreChart();
+  renderTimeOfDayChart();
+  showPeakProductivityHours();
+
+  const productivityScoreChartText = document.querySelector(".productivityScoreChartText");
+  if (!productivityScoreChartText) return;
+  productivityScoreChartText.textContent = `${getProductivityScore()}%`;
+}
+
+function generateInsights() {
+  const { priorities, completed, notCompleted } = getPriorityCompletionData();
+
+  let insights = [];
+
+  priorities.forEach((p, i) => {
+    const total = completed[i] + notCompleted[i];
+    if (total === 0) return;
+
+    const rate = Math.round((completed[i] / total) * 100);
+
+    insights.push({
+      priority: p,
+      rate
+    });
+  });
+
+  return insights;
+}
+
+function renderInsights() {
+  const analyticsInsights = document.querySelector(".analyticsInsights");
+
+  if (!analyticsInsights) return;
+
+  analyticsInsights.innerHTML = "";
+
+  const insights = generateInsights();
+
+  insights.forEach(item => {
+    const insightItem = document.createElement("div");
+    insightItem.className = "insightItem";
+
+    let message = "";
+
+    if (item.rate >= 75) {
+      message = `${item.priority} tasks: strong completion (${item.rate}%)`;
+    } else if (item.rate >= 40) {
+      message = `${item.priority} tasks: moderate completion (${item.rate}%)`;
+    } else {
+      message = `${item.priority} tasks: needs attention (${item.rate}%)`;
+    }
+
+    insightItem.textContent = message;
+    analyticsInsights.appendChild(insightItem);
+  })
+}
+
+const productivityScoreChartTooltip = document.querySelector(".productivityScoreChartTooltip");
+if (productivityScoreChartTooltip) {
+  productivityScoreChartTooltip.addEventListener("mousemove", (e) => {
+    const tooltip = productivityScoreChartTooltip.querySelector(".analyticsInsights");
+    if (!tooltip) return;
+
+    let x = e.clientX;
+    let y = e.clientY;
+
+    const offsetX = 15;
+    const offsetY = 15;
+
+    const tooltipRect = tooltip.getBoundingClientRect();
+    const maxX = window.innerWidth - tooltipRect.width - 10;
+    const maxY = window.innerHeight - tooltipRect.height - 10;
+
+    const finalX = Math.min(x + offsetX, maxX);
+    const finalY = Math.min(y + offsetY, maxY);
+
+    productivityScoreChartTooltip.style.setProperty("--tooltip-x", `${finalX}px`);
+    productivityScoreChartTooltip.style.setProperty("--tooltip-y", `${finalY}px`);
+  });
+}
+
+analyticsBtn.addEventListener("click", () => {
+  document.documentElement.classList.remove("dashboardActive");
+  document.documentElement.classList.add("isAnalyticsView");
+
+  analyticsMainContent.appendChild(miniAnalytics);
+  renderInsights();
+  refreshCharts();
+
+  setTimeout(() => {
+    weeklyTaskChart?.resize();
+    priorityCompletionChart?.resize();
+    productivityScoerChart?.resize();
+  }, 0);
 });
 
 function getTasksAsData() {
